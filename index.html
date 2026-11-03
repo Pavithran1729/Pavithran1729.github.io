@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavithran R — Software Engineer & ML Systems Specialist</title>
+    <meta name="description" content="Portfolio of Pavithran R: Software Engineer and ML Systems Specialist.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="projects/three.min.js"></script>
+    <script>window.THREE || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');</script>
+
+    <style>
+        @font-face {
+            font-family: 'PP Mondwest';
+            src: url('projects/PP_Mondwest.woff2') format('woff2'), url('https://framerusercontent.com/assets/ZhR4uVs0Su3VezrUyVN1ae4OhQ.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'PP Neue Montreal';
+            src: url('https://framerusercontent.com/assets/yUScEiZtXZCqdRimefTfBx1Q4.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'PP Neue Montreal';
+            src: url('https://framerusercontent.com/assets/6uIfYl8bnz9kOy3KOuV7PxhFPhA.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'PP Neue Montreal';
+            src: url('https://framerusercontent.com/assets/wa1QQCb6cXOn2xBXS059rEsCfsc.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .font-mondwest { font-family: 'PP Mondwest', Georgia, serif; }
+        .font-montreal { font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+        :root {
+            --crimson: #DD0E45;
+            --obsidian: #000000;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'PP Neue Montreal', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background-color: var(--crimson);
+            color: #ffffff;
+        }
+
+        /* Subtle Vertical Pinstripes (Exact Dharmesh CAD Lines) */
+        .pinstripe-stack {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 840px;
+            max-width: 95vw;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .pinstripe {
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        /* Symmetrical Crimson Sun Domes (Exact 480px, Positioned at -400px and -440px) */
+        /* Fixed Hover Trigger Zone: Mouse never loses focus during animation */
+        .sun-dome-trigger {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 380px;
+            height: 220px;
+            cursor: pointer;
+            z-index: 30;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sun-dome-disc {
+            position: absolute;
+            top: -400px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 480px;
+            height: 480px;
+            border-radius: 9999px;
+            background-color: var(--crimson);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); /* Butter-smooth spring */
+            pointer-events: none;
+        }
+
+        /* Hover State: Springs down smoothly to top: 24px as a 156px full circle */
+        .sun-dome-trigger:hover .sun-dome-disc {
+            top: 24px;
+            width: 156px;
+            height: 156px;
+            box-shadow: 0 24px 60px rgba(221, 14, 69, 0.45), 0 0 70px rgba(221, 14, 69, 0.3);
+        }
+
+        .sun-dome-disc .sun-avatar {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease 0.05s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .sun-dome-trigger:hover .sun-avatar {
+            opacity: 1;
+        }
+
+        .sun-dome-disc .sun-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            padding: 8px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+        }
+
+        .sun-dome-bottom {
+            position: absolute;
+            bottom: -440px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 480px;
+            height: 480px;
+            border-radius: 1000px;
+            background-color: var(--crimson);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        
+        /* Dharmesh 1:1 Grain Texture */
+        .grain-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('projects/dharmesh_grain.png');
+            background-size: 120px;
+            background-repeat: repeat;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: overlay;
+        }
+
+        /* Canvas Wrapper */
+        .webgl-canvas-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            filter: blur(24px);
+        }
+
+        
+        /* Exact Dharmesh Wine Ambient Glow Background */
+        #hero {
+            background-color: #000000;
+        }
+
+        #contact {
+            background-color: #000000;
+        }
+
+        /* Bento Card Architecture: STRICT MONOCHROME (0 RED) */
+        .bento-card {
+            background: #0d0d10;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 36px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+            transform: translateY(-4px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Circular Action Arrow Button (Dharmesh Signature) */
+        .action-arrow-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .bento-card:hover .action-arrow-btn {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.08);
+        }
+
+        /* Minimalist Modern Laptop Mockup */
+        .laptop-mockup {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            flex-shrink: 0;
+            filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.75));
+        }
+        .laptop-top-lid {
+            width: 100%;
+            background: #0d0d11;
+            border-radius: 12px 12px 2px 2px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-bottom: none;
+            padding: 8px 10px 0 10px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .laptop-browser-bar {
+            height: 22px;
+            background: #141419;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+        .laptop-dots {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .laptop-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .laptop-url-pill {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1px 12px;
+            border-radius: 9999px;
+            letter-spacing: 0.02em;
+        }
+        .laptop-screen-viewport {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: #000000;
+            overflow: hidden;
+            position: relative;
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .laptop-screen-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bento-card:hover .laptop-screen-viewport img {
+            transform: scale(1.035);
+        }
+        .laptop-base-chin {
+            width: calc(100% + 24px);
+            margin-left: -12px;
+            height: 9px;
+            background: linear-gradient(180deg, #26262d 0%, #17171c 60%, #0d0d10 100%);
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.12) inset;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+        }
+        .laptop-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 3px;
+            background: #09090b;
+            border-radius: 0 0 3px 3px;
+        }
+
+        /* Interactive Squircle Tech Stack Arsenal */
+        .tech-squircle-card {
+            border-radius: 26px;
+            background: #0d0d12;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            aspect-ratio: 1;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            cursor: default;
+        }
+        .tech-squircle-card:hover {
+            transform: translateY(-4px) scale(1.04);
+            border-color: rgba(255, 255, 255, 0.22);
+            background: #13131a;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+        }
+        .tech-squircle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .tech-squircle-card:hover .tech-squircle-icon {
+            transform: scale(1.1);
+        }
+        .tech-squircle-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            transition: color 0.25s ease;
+            text-align: center;
+        }
+        .tech-squircle-card:hover .tech-squircle-label {
+            color: #ffffff;
+        }
+
+        /* Dharmesh Bottom Sun Dome Social Row (1:1 Exact Dharmesh 56px/240px System) */
+        .social-circle-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .social-circle-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: scale(1.08);
+        }
+
+        /* Dharmesh Email Me Pill Button (1:1 Exact 240px x 56px) */
+        .email-pill-btn {
+            height: 56px;
+            width: 240px;
+            max-width: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .email-pill-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: scale(1.04);
+        }
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Floating Pill Nav Links - Active Glow & White Brightening */
+        .nav-link {
+            color: rgba(255, 255, 255, 0.46);
+            font-weight: 500;
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            position: relative;
+        }
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.88);
+        }
+        .nav-link.active {
+            color: #ffffff !important;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 22px rgba(255, 255, 255, 0.5), 0 0 35px rgba(255, 255, 255, 0.25);
+        }
+        #nav-logo {
+            filter: drop-shadow(0 0 0px transparent);
+            transition: filter 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        }
+        #nav-logo:hover {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            transform: scale(1.08);
+        }
+        #nav-logo.active {
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.85));
+        }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="antialiased text-slate-200">
+
+        <!-- FLOATING PILL NAVBAR -->
+        <!-- FLOATING PILL NAVBAR: EXACT DHARMESH REPLICATION (480px, 40px Blur, Hairline Border, White Squircle Logo) -->
+    <header id="floating-navbar" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ease-out will-change-transform opacity-0 -translate-y-12 pointer-events-none">
+        <nav class="flex items-center justify-between w-[480px] max-w-[calc(100vw-32px)] h-14 px-6 rounded-full bg-black/50 backdrop-blur-[40px] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
+            <!-- White Squircle Logo Badge (Exact Dharmesh "D" Style -> "P" Monogram) -->
+            <a href="#hero" class="w-7 h-7 rounded-lg bg-white text-black font-mondwest font-bold text-base flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0" aria-label="Pavithran - Home" id="nav-logo">
+                P
+            </a>
+            
+            <!-- Hairline Divider -->
+            <div class="w-px h-4 bg-white/10 rounded-full mx-1"></div>
+
+            <!-- Nav Links: PP Neue Montreal, 15px, opacity 0.64 -> 1 on hover/active -->
+            <div class="flex items-center gap-6 text-[15px] font-montreal">
+                <a href="#work" class="nav-link text-white/65 hover:text-white transition-colors" id="nav-work">Work</a>
+                <a href="#about" class="nav-link text-white/65 hover:text-white transition-colors" id="nav-about">About me</a>
+                <a href="#contact" class="nav-link text-white/65 hover:text-white transition-colors" id="nav-contact">Contact</a>
+            </div>
+
+            <!-- Resume Link with Arrow (Exact Dharmesh Navbar Style) -->
+            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-[15px] font-montreal text-white/65 hover:text-white transition-colors ml-1">
+                <span>Resume</span>
+                <span class="text-xs">↗</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- SECTION 01: HERO (Dharmesh 1:1) -->
+    <section id="hero" class="relative h-screen min-h-[750px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        
+        <!-- Top Symmetrical Crimson Sun Dome -->
+        <div class="sun-dome-trigger group">
+            <div class="sun-dome-disc">
+                <div class="sun-avatar">
+                    <img src="pixel_avatar_white_dots.png" alt="Pavithran Halftone White Dotted Portrait" onerror="this.onerror=null; this.src='pixel_avatar.gif';">
+                </div>
+            </div>
+        </div>
+
+        <!-- Symmetrical CAD Vector Lines -->
+        <div class="pinstripe-stack">
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+        </div>
+
+        <!-- Three.js Ambient Fluid Wave Glow (Subtle, Organic, Zero Ribbons) -->
+        <div id="hero-canvas-container" class="webgl-canvas-container"></div>
+        <div class="grain-overlay"></div>
+
+        <!-- Content Stack -->
+        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center mt-24 sm:mt-28">
+            <h1 class="font-mondwest text-7xl sm:text-9xl md:text-[112px] font-normal tracking-tight text-white mb-6 leading-[0.95] text-center">
+                Hi there,<br>I am Pavithran
+            </h1>
+            <p class="font-montreal text-base sm:text-lg text-white/70 max-w-xl mx-auto leading-relaxed text-center mb-10 font-normal">
+                A Software Engineer & ML Systems Specialist. Currently building autonomous agent evaluation sandboxes at Handshake AI and zero-downtime distributed platforms.
+            </p>
+            <div class="flex items-center justify-center gap-4">
+                <a href="#contact" class="px-8 py-3.5 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 hover:border-white/25 text-white text-sm font-medium transition-all duration-300 shadow-xl inline-flex items-center gap-2 backdrop-blur-md">
+                    <span>Get in touch</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 02: BENTO WORK ("A few things I've shipped") -->
+        <!-- WORK SECTION: EXACT DHARMESH 1:1 ARCHITECTURE (1000px Max-Width, 40px Radius, 2-Column Asymmetric Masonry) -->
+    <section id="work" class="relative z-10 max-w-5xl max-w-[1000px] mx-auto px-4 sm:px-6 py-28 border-t border-white/[0.04] scroll-mt-28">
+        <div class="text-center mb-16">
+            <h2 class="font-mondwest text-5xl sm:text-[64px] font-normal leading-none tracking-[-0.4px] text-white mb-4">
+                A few things I've shipped
+            </h2>
+            <p class="font-montreal text-sm sm:text-base text-white/50 tracking-wide">
+                Production platforms, autonomous agent systems, and systems infrastructure.
+            </p>
+        </div>
+
+        <!-- Bento Grid: Card 1 (Full Width 440px) + 2-Column Asymmetric Masonry (Left: 720+488=1232 | Right: 604+604=1232) -->
+        <div class="flex flex-col gap-6">
+
+            <!-- Card 1: Automated Exam Infrastructure (QPGen) - Hero Full Width (1000px, 440px Height) -->
+            <div onclick="openProjectModal('qpgen')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[440px] h-[440px]">
+                <!-- Atmospheric Hover Gradient (Wine / Crimson Red) -->
+                <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(64deg, rgb(30, 11, 15) 0%, rgb(67, 15, 27) 100%);"></div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center z-10 h-full">
+                    <div class="md:col-span-5 flex flex-col justify-between h-full space-y-6">
+                        <div>
+                            <span class="text-xs font-mono uppercase tracking-wider text-[#737373] block mb-2">CAMPUS SAAS · 2024–PRESENT</span>
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white mb-3 group-hover:text-neutral-200 transition-colors">
+                                Automated Exam Infrastructure
+                            </h3>
+                            <p class="font-montreal text-white/60 text-sm sm:text-base leading-relaxed">
+                                Production examination SaaS serving 50+ faculty across 8 academic departments for 1.5+ consecutive years without downtime.
+                            </p>
+                        </div>
+                        <div class="pt-2">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('qpgen')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View QPGen Details">
+                                <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
+                                <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="md:col-span-7 relative flex items-center justify-center h-full overflow-hidden">
+                        <!-- Laptop Screen Mockup (Card 1 Hero) -->
+                        <div class="w-full max-w-[480px] sm:max-w-[500px] flex flex-col items-center transform transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:-translate-y-1">
+                            <!-- Display Lid (16:10 Aspect Ratio) -->
+                            <div class="relative w-full rounded-t-[14px] sm:rounded-t-[18px] bg-[#121215] border-t border-x border-white/[0.14] p-1.5 sm:p-2 pb-0 shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+                                <!-- Camera Dot -->
+                                <div class="absolute top-1 sm:top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20 pointer-events-none">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-[#050508] ring-1 ring-white/10 flex items-center justify-center">
+                                        <div class="w-0.5 h-0.5 rounded-full bg-[#1b3a4b]/90"></div>
+                                    </div>
+                                </div>
+                                <!-- Screen Viewport: 16:10 Widescreen, Object Contain (Zero Cropping) -->
+                                <div class="relative w-full aspect-[16/10] rounded-t-[8px] sm:rounded-t-[10px] overflow-hidden bg-[#0c0c0e] border-t border-x border-white/[0.08] flex items-center justify-center">
+                                    <img src="projects/qpgen_exam_blueprint.png" alt="QPGen Automated Exam Infrastructure Dashboard" class="w-full h-full object-contain object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.02]" loading="lazy">
+                                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.04]"></div>
+                                </div>
+                            </div>
+                            <!-- Laptop Base Deck -->
+                            <div class="relative w-[104%] -mx-[2%] z-10 flex flex-col items-center">
+                                <div class="w-full h-2.5 sm:h-3 rounded-b-[6px] sm:rounded-b-[8px] bg-gradient-to-b from-[#323238] via-[#222226] to-[#121214] border-t border-white/25 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-start justify-center">
+                                    <div class="w-12 sm:w-16 h-1 bg-[#09090b] rounded-b-[3px] border-b border-white/10 shadow-inner"></div>
+                                </div>
+                                <div class="w-[90%] h-1.5 bg-black/60 blur-[3px] rounded-full -mt-0.5 pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two-Column Asymmetric Masonry Matching Dharmesh Live Architecture (1232px Balanced Columns) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- LEFT COLUMN: Card 2 (720px) + Card 3 (488px) = 1208px + 24px gap = 1232px -->
+                <div class="flex flex-col gap-6">
+
+                    <!-- Card 2: Tokenized Queue Management System (EZQ) - Half Width (720px Height) -->
+                    <div onclick="openProjectModal('ezq')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[720px] h-[720px]">
+                        <!-- Atmospheric Hover Gradient (Deep Sapphire Navy Blue) -->
+                        <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(11, 16, 30) 0%, rgb(15, 29, 67) 100%);"></div>
+                        <div class="space-y-3 z-10">
+                            <span class="text-xs font-mono uppercase tracking-wider text-[#737373] block mb-2">CLOUD SAAS &amp; QUEUE AUTOMATION · 2024</span>
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+                                Tokenized Queue Management System (EZQ)
+                            </h3>
+                            <p class="font-montreal text-white/60 text-sm sm:text-base leading-relaxed">
+                                Cloud-based queue management SaaS platform transforming physical queues into intelligent virtual waiting lines with real-time analytics.
+                            </p>
+                        </div>
+                        
+                        <!-- Dharmesh Signature Bottom-Left Circular Button -->
+                        <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('ezq')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View EZQ Details">
+                                <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
+                                <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Laptop Screen Mockup (Card 2 Horizontal Widescreen Laptop) -->
+                        <div class="relative w-full flex items-center justify-center overflow-hidden my-auto mb-6">
+                            <div class="w-full max-w-[420px] flex flex-col items-center transform transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:-translate-y-1">
+                                <!-- Display Lid (16:10 Aspect Ratio) -->
+                                <div class="relative w-full rounded-t-[14px] sm:rounded-t-[18px] bg-[#121215] border-t border-x border-white/[0.14] p-1.5 sm:p-2 pb-0 shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+                                    <div class="absolute top-1 sm:top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20 pointer-events-none">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-[#050508] ring-1 ring-white/10 flex items-center justify-center">
+                                            <div class="w-0.5 h-0.5 rounded-full bg-[#1b3a4b]/90"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Screen Viewport: 16:10 Widescreen, Object Contain (Zero Cropping) -->
+                                    <div class="relative w-full aspect-[16/10] rounded-t-[8px] sm:rounded-t-[10px] overflow-hidden bg-[#0c0c0e] border-t border-x border-white/[0.08] flex items-center justify-center">
+                                        <img src="projects/mudra_ai_financial_agent.png" alt="EZQ Queue Management Admin Telemetry Dashboard" class="w-full h-full object-contain object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.02]" loading="lazy">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.04]"></div>
+                                    </div>
+                                </div>
+                                <!-- Laptop Base Deck -->
+                                <div class="relative w-[104%] -mx-[2%] z-10 flex flex-col items-center">
+                                    <div class="w-full h-2.5 sm:h-3 rounded-b-[6px] sm:rounded-b-[8px] bg-gradient-to-b from-[#323238] via-[#222226] to-[#121214] border-t border-white/25 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-start justify-center">
+                                        <div class="w-12 sm:w-16 h-1 bg-[#09090b] rounded-b-[3px] border-b border-white/10 shadow-inner"></div>
+                                    </div>
+                                    <div class="w-[90%] h-1.5 bg-black/60 blur-[3px] rounded-full -mt-0.5 pointer-events-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Mudra Mastery: AI Gesture Recognition - Half Width (488px Height - Matches Dharmesh Sushi Card Exactly) -->
+                    <div onclick="openProjectModal('mudra')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[488px] h-[488px]">
+                        <!-- Atmospheric Hover Gradient (Warm Amber / Ember) -->
+                        <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(48deg, rgb(30, 16, 11) 0%, rgb(67, 29, 15) 100%);"></div>
+                        <div class="space-y-3 z-10">
+                            <span class="text-xs font-mono uppercase tracking-wider text-[#737373] block mb-2">AI &amp; COMPUTER VISION · 2024–2025</span>
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+                                Mudra Mastery: AI Gesture Recognition
+                            </h3>
+                            <p class="font-montreal text-white/60 text-sm sm:text-base leading-relaxed">
+                                Real-time computer vision Progressive Web App recognizing 50 classical Indian dance mudras via webcam at 60 FPS with &lt;50ms latency.
+                            </p>
+                        </div>
+                        
+                        <!-- Dharmesh Signature Bottom-Left Circular Button -->
+                        <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('mudra')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Mudra Details">
+                                <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
+                                <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Laptop Screen Mockup (Card 3 Horizontal Widescreen Laptop) -->
+                        <div class="relative w-full flex items-end justify-center overflow-hidden mt-auto mb-3">
+                            <div class="w-full max-w-[390px] flex flex-col items-center transform transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:-translate-y-1">
+                                <!-- Display Lid (16:10 Aspect Ratio) -->
+                                <div class="relative w-full rounded-t-[14px] sm:rounded-t-[18px] bg-[#101013] border-t border-x border-white/[0.14] p-1.5 sm:p-2 pb-0 shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+                                    <div class="absolute top-1 sm:top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20 pointer-events-none">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-[#050508] ring-1 ring-white/10 flex items-center justify-center">
+                                            <div class="w-0.5 h-0.5 rounded-full bg-[#1b3a4b]/90"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Screen Viewport: 16:10 Widescreen, Object Contain (Zero Cropping) -->
+                                    <div class="relative w-full aspect-[16/10] rounded-t-[8px] sm:rounded-t-[10px] overflow-hidden bg-[#0c0c0e] border-t border-x border-white/[0.08] flex items-center justify-center">
+                                        <img src="projects/aether_microkernel_preview.png" alt="Mudra Mastery Bharatanatyam Gesture AI Interface" class="w-full h-full object-contain object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.02]" loading="lazy">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.04]"></div>
+                                    </div>
+                                </div>
+                                <!-- Laptop Base Deck -->
+                                <div class="relative w-[104%] -mx-[2%] z-10 flex flex-col items-center">
+                                    <div class="w-full h-2.5 sm:h-3 rounded-b-[6px] sm:rounded-b-[8px] bg-gradient-to-b from-[#323238] via-[#222226] to-[#121214] border-t border-white/25 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-start justify-center">
+                                        <div class="w-12 sm:w-16 h-1 bg-[#09090b] rounded-b-[3px] border-b border-white/10 shadow-inner"></div>
+                                    </div>
+                                    <div class="w-[90%] h-1.5 bg-black/60 blur-[3px] rounded-full -mt-0.5 pointer-events-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: Card 4 (604px) + Card 5 (604px) = 1208px + 24px gap = 1232px -->
+                <div class="flex flex-col gap-6">
+
+                    <!-- Card 4: Terminal-Bench (Autonomous Agent Sandbox) - Half Width (604px Height - Matches Dharmesh Menu Card Exactly) -->
+                    <div onclick="openProjectModal('terminal')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
+                        <!-- Atmospheric Hover Gradient (Royal Violet / Deep Purple) -->
+                        <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(17, 11, 30) 0%, rgb(32, 15, 67) 100%);"></div>
+                        <div class="space-y-3 z-10">
+                            <span class="text-xs font-mono uppercase tracking-wider text-[#737373] block mb-2">LLM BENCHMARKING · HANDSHAKE AI</span>
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+                                Frontier Coding Agent Benchmark (Terminal-Bench)
+                            </h3>
+                            <p class="font-montreal text-white/60 text-sm sm:text-base leading-relaxed">
+                                Deterministic rootless Docker test harness and dynamic anti-cheat verification oracles evaluating autonomous frontier coding models.
+                            </p>
+                        </div>
+                        
+                        <!-- Dharmesh Signature Bottom-Left Circular Button -->
+                        <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('terminal')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Terminal-Bench Details">
+                                <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
+                                <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Laptop Screen Mockup (Card 4 Horizontal Widescreen Laptop) -->
+                        <div class="relative w-full flex items-center justify-center overflow-hidden my-auto mb-4">
+                            <div class="w-full max-w-[410px] flex flex-col items-center transform transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:-translate-y-1">
+                                <!-- Display Lid (16:10 Aspect Ratio) -->
+                                <div class="relative w-full rounded-t-[14px] sm:rounded-t-[18px] bg-[#121215] border-t border-x border-white/[0.14] p-1.5 sm:p-2 pb-0 shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+                                    <div class="absolute top-1 sm:top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20 pointer-events-none">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-[#050508] ring-1 ring-white/10 flex items-center justify-center">
+                                            <div class="w-0.5 h-0.5 rounded-full bg-[#1b3a4b]/90"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Screen Viewport: 16:10 Widescreen, Object Contain (Zero Cropping) -->
+                                    <div class="relative w-full aspect-[16/10] rounded-t-[8px] sm:rounded-t-[10px] overflow-hidden bg-[#0c0c0e] border-t border-x border-white/[0.08] flex items-center justify-center">
+                                        <img src="projects/apex_neural_dashboard.png" alt="Terminal-Bench Autonomous Agent Hermetic Sandbox Terminal" class="w-full h-full object-contain object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.02]" loading="lazy">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.04]"></div>
+                                    </div>
+                                </div>
+                                <!-- Laptop Base Deck -->
+                                <div class="relative w-[104%] -mx-[2%] z-10 flex flex-col items-center">
+                                    <div class="w-full h-2.5 sm:h-3 rounded-b-[6px] sm:rounded-b-[8px] bg-gradient-to-b from-[#323238] via-[#222226] to-[#121214] border-t border-white/25 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-start justify-center">
+                                        <div class="w-12 sm:w-16 h-1 bg-[#09090b] rounded-b-[3px] border-b border-white/10 shadow-inner"></div>
+                                    </div>
+                                    <div class="w-[90%] h-1.5 bg-black/60 blur-[3px] rounded-full -mt-0.5 pointer-events-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Result Portal (University Examination Analytics) - Half Width (604px Height - Matches Dharmesh Hyperpure Card Exactly) -->
+                    <div onclick="openProjectModal('result_portal')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
+                        <!-- Atmospheric Hover Gradient (Deep Emerald / Forest Green) -->
+                        <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(11, 30, 22) 0%, rgb(18, 64, 45) 100%);"></div>
+                        <div class="space-y-3 z-10">
+                            <span class="text-xs font-mono uppercase tracking-wider text-[#737373] block mb-2">ACADEMIC ANALYTICS · 2024</span>
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+                                University Result Analytics Portal
+                            </h3>
+                            <p class="font-montreal text-white/60 text-sm sm:text-base leading-relaxed">
+                                High-throughput academic performance analytics and result publishing platform processing multi-semester cohort grades with instant percentile rankings.
+                            </p>
+                        </div>
+                        
+                        <!-- Dharmesh Signature Bottom-Left Circular Button -->
+                        <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('result_portal')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Result Portal Details">
+                                <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
+                                <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Laptop Screen Mockup (Card 5 Horizontal Widescreen Laptop) -->
+                        <div class="relative w-full flex items-center justify-center overflow-hidden my-auto mb-4">
+                            <div class="w-full max-w-[410px] flex flex-col items-center transform transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:-translate-y-1">
+                                <!-- Display Lid (16:10 Aspect Ratio) -->
+                                <div class="relative w-full rounded-t-[14px] sm:rounded-t-[18px] bg-[#121215] border-t border-x border-white/[0.14] p-1.5 sm:p-2 pb-0 shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+                                    <div class="absolute top-1 sm:top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20 pointer-events-none">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-[#050508] ring-1 ring-white/10 flex items-center justify-center">
+                                            <div class="w-0.5 h-0.5 rounded-full bg-[#1b3a4b]/90"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Screen Viewport: 16:10 Widescreen, Object Contain (Zero Cropping) -->
+                                    <div class="relative w-full aspect-[16/10] rounded-t-[8px] sm:rounded-t-[10px] overflow-hidden bg-[#0c0c0e] border-t border-x border-white/[0.08] flex items-center justify-center">
+                                        <img src="projects/pulse_collab_network.png" alt="University Examination Result Management & Analytics Dashboard" class="w-full h-full object-contain object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.02]" loading="lazy">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.04]"></div>
+                                    </div>
+                                </div>
+                                <!-- Laptop Base Deck -->
+                                <div class="relative w-[104%] -mx-[2%] z-10 flex flex-col items-center">
+                                    <div class="w-full h-2.5 sm:h-3 rounded-b-[6px] sm:rounded-b-[8px] bg-gradient-to-b from-[#323238] via-[#222226] to-[#121214] border-t border-white/25 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-start justify-center">
+                                        <div class="w-12 sm:w-16 h-1 bg-[#09090b] rounded-b-[3px] border-b border-white/10 shadow-inner"></div>
+                                    </div>
+                                    <div class="w-[90%] h-1.5 bg-black/60 blur-[3px] rounded-full -mt-0.5 pointer-events-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Archive Drawer Trigger Matching Dharmesh (200px x 56px Pill Button) -->
+        <div class="mt-14 flex justify-center">
+            <button onclick="openArchiveDrawer()" class="h-14 px-8 rounded-full bg-[#141414] hover:bg-[#1a1a1c] border border-white/10 hover:border-white/25 flex items-center gap-2.5 text-white/80 hover:text-white transition-all duration-300 text-sm font-medium shadow-xl group">
+                <span>All other projects</span>
+                <span class="text-white/40 group-hover:text-white transition-colors transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            </button>
+        </div>
+    </section>
+
+<section id="technical-arsenal" class="relative z-10 max-w-5xl max-w-[1000px] mx-auto px-4 sm:px-6 py-20 border-t border-white/[0.04] scroll-mt-28">
+        <div class="text-center mb-16">
+            <h2 class="font-mondwest text-5xl sm:text-7xl font-normal tracking-tight text-white mb-4">
+                Technical Arsenal
+            </h2>
+            <p class="font-montreal text-sm text-white/50 max-w-md mx-auto">
+                Core engineering technologies, systems infrastructure, and machine learning frameworks.
+            </p>
+        </div>
+
+        <!-- Squircle Card Grid (2 Symmetrical Rows of 5) -->
+        <div class="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+            <!-- Row 1: Languages & Frontend -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Python -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="url(#python-grad-a)" d="M63.5 12c-13.7 0-22.3 6-22.3 17.5v12.8h22.8v3.2H32.2C20.6 45.5 12 54 12 67.8c0 14.2 9.2 22.8 22.3 22.8h7.2v-11.2c0-8.2 7-15 15.3-15h22.5c6.8 0 12.3-5.6 12.3-12.4V29.5c0-11.4-8.6-17.5-22.1-17.5zm-6.2 7c2.5 0 4.6 2 4.6 4.6s-2 4.6-4.6 4.6-4.6-2-4.6-4.6 2-4.6 4.6-4.6z"/><path fill="url(#python-grad-b)" d="M64.5 116c13.7 0 22.3-6 22.3-17.5V85.7H64v-3.2h31.8c11.6 0 20.2-8.5 20.2-22.3 0-14.2-9.2-22.8-22.3-22.8h-7.2v11.2c0 8.2-7 15-15.3 15H48.7c-6.8 0-12.3 5.6-12.3 12.4v32.5c0 11.4 8.6 17.5 22.1 17.5zm6.2-7c-2.5 0-4.6-2-4.6-4.6s2-4.6 4.6-4.6 4.6 2 4.6 4.6-2 4.6-4.6 4.6z"/><defs><linearGradient id="python-grad-a" x1="12" y1="12" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#387EB8"/><stop offset="1" stop-color="#366994"/></linearGradient><linearGradient id="python-grad-b" x1="116" y1="116" x2="48" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE873"/><stop offset="1" stop-color="#FFD43B"/></linearGradient></defs></svg>
+                    </div>
+                    <span class="tech-squircle-label">Python</span>
+                </div>
+
+                <!-- TypeScript -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><rect width="128" height="128" rx="20" fill="#3178C6"/><text x="64" y="85" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#ffffff" text-anchor="middle">TS</text></svg>
+                    </div>
+                    <span class="tech-squircle-label">TypeScript</span>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><rect width="128" height="128" rx="20" fill="#F7DF1E"/><text x="64" y="85" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#000000" text-anchor="middle">JS</text></svg>
+                    </div>
+                    <span class="tech-squircle-label">JavaScript</span>
+                </div>
+
+                <!-- React -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><ellipse cx="64" cy="64" rx="14" ry="14" fill="#61DAFB"/><g fill="none" stroke="#61DAFB" stroke-width="5"><ellipse cx="64" cy="64" rx="54" ry="20"/><ellipse cx="64" cy="64" rx="54" ry="20" transform="rotate(60 64 64)"/><ellipse cx="64" cy="64" rx="54" ry="20" transform="rotate(120 64 64)"/></g></svg>
+                    </div>
+                    <span class="tech-squircle-label">React</span>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="#38BDF8" d="M32 38.4c5.3-21.3 18.7-21.3 26.7-10.7 8 10.7 13.3 16 26.7 16 8 0 16-5.3 21.3-16-5.3 21.3-18.7 21.3-26.7 10.7-8-10.7-13.3-16-26.7-16-8 0-16 5.3-21.3 16zm-16 32c5.3-21.3 18.7-21.3 26.7-10.7 8 10.7 13.3 16 26.7 16 8 0 16-5.3 21.3-16-5.3 21.3-18.7 21.3-26.7 10.7-8-10.7-13.3-16-26.7-16-8 0-16 5.3-21.3 16z"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">Tailwind CSS</span>
+                </div>
+            </div>
+
+            <!-- Row 2: Backend, Systems & AI -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Node.js -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="#539E43" d="M64 12l48 27.7v55.5L64 123 16 95.2V39.7L64 12zm22.4 46.5c-.8-1.5-2.2-2.7-4.2-3.6-2-.9-4.7-1.6-8-2-4.8-.7-7.8-1.5-9.2-2.4-1.3-.9-2-2.1-2-3.8 0-1.7.7-3 2.1-4 1.4-1 3.5-1.5 6.2-1.5 3.3 0 6.2.7 8.7 2 2.5 1.3 4.2 3.2 5 5.5l7.5-4.4c-1.6-3.4-4.2-6.1-7.9-8-3.7-1.9-8.1-2.9-13.3-2.9-4.8 0-8.8.9-12.1 2.8-3.3 1.9-5.8 4.4-7.4 7.6-1.6 3.2-2.4 6.7-2.4 10.6 0 4.2.9 7.7 2.8 10.4 1.9 2.7 4.9 4.8 9.1 6.3 4.2 1.5 8 2.6 11.5 3.4 3.5.8 5.7 1.8 6.7 2.9 1 1.1 1.5 2.5 1.5 4.3 0 1.8-.8 3.3-2.3 4.5s-3.9 1.8-7.1 1.8c-3.9 0-7.2-.9-10-2.8-2.8-1.9-4.6-4.5-5.5-7.9l-7.7 4.2c1.6 4.7 4.6 8.3 8.8 11 4.2 2.6 9.1 3.9 14.8 3.9 5.3 0 9.8-1 13.5-3.1 3.7-2.1 6.5-4.9 8.3-8.4 1.8-3.5 2.7-7.5 2.7-12 0-3.8-1-7-3-9.5z"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">Node.js</span>
+                </div>
+
+                <!-- PostgreSQL -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="#4169E1" d="M64 12C35.3 12 12 35.3 12 64c0 19.8 11.1 37 27.5 45.8 1.8-2.2 4-5.3 5.4-8.8-4-3.5-6.7-8.7-6.7-14.7 0-9.8 7.3-17.7 16.5-18.4v-4.5c0-7.8 5.2-14.5 12.5-16.6V39c0-6 4.9-11 11-11s11 5 11 11v7.8c7.3 2.1 12.5 8.8 12.5 16.6v4.5c9.2.7 16.5 8.6 16.5 18.4 0 6-2.7 11.2-6.7 14.7 1.4 3.5 3.6 6.6 5.4 8.8C104.9 101 116 83.8 116 64c0-28.7-23.3-52-52-52z"/><circle cx="50" cy="54" r="4" fill="#ffffff"/><circle cx="78" cy="54" r="4" fill="#ffffff"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">PostgreSQL</span>
+                </div>
+
+                <!-- Docker -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="#2496ED" d="M118 63.8c-2.3-.5-9.4-1.2-14.7 2.8-.7.5-1.3 1.1-1.9 1.7-5.5-3.8-12.7-5.2-19.8-3.7-.5-2.2-1.6-4.3-3.1-6-4.4-4.8-11.4-6.2-17.3-3.6V52h14v-13H61.2V26H47.7v13H34.2V26H20.7v13H7.2V52h13.5v13H7.2v13H3.8c-1.5 4.8-1.1 10.3 1.3 14.9 7.6 14.5 22.8 24.1 39.5 24.1 32.2 0 60.5-17.6 73.4-43.2.7-1.3 1.2-2.7 1.6-4.1 2.3-2.1 3.5-5.1 3.4-8.2-.1-3.2-1.7-6.1-5-6.7z"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">Docker</span>
+                </div>
+
+                <!-- PyTorch -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><path fill="#EE4C2C" d="M64 16L40 40h16v32h16V40h16L64 16z"/><circle cx="84" cy="32" r="6" fill="#EE4C2C"/><path d="M42 64c0 12.2 9.8 22 22 22s22-9.8 22-22" fill="none" stroke="#EE4C2C" stroke-width="7" stroke-linecap="round"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">PyTorch</span>
+                </div>
+
+                <!-- MediaPipe -->
+                <div class="tech-squircle-card">
+                    <div class="tech-squircle-icon">
+                        <svg viewBox="0 0 128 128" class="w-10 h-10 sm:w-11 sm:h-11"><circle cx="64" cy="64" r="50" fill="none" stroke="#00C4B4" stroke-width="6"/><circle cx="64" cy="34" r="10" fill="#00C4B4"/><circle cx="34" cy="80" r="10" fill="#00C4B4"/><circle cx="94" cy="80" r="10" fill="#00C4B4"/><line x1="64" y1="34" x2="34" y2="80" stroke="#00C4B4" stroke-width="5"/><line x1="64" y1="34" x2="94" y2="80" stroke="#00C4B4" stroke-width="5"/><line x1="34" y1="80" x2="94" y2="80" stroke="#00C4B4" stroke-width="5"/></svg>
+                    </div>
+                    <span class="tech-squircle-label">MediaPipe</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 03: "A bit about me" (Dharmesh 1:1 Clean Layout - Image 2 Style) -->
+        
+
+    <!-- ABOUT SECTION: EXACT DHARMESH 1:1 ARCHITECTURE (1000px Max-Width, 40px Radius, Timelines & Collages) -->
+    <section id="about" class="relative z-10 max-w-5xl max-w-[1000px] mx-auto px-4 sm:px-6 py-28 border-t border-white/[0.04] scroll-mt-28">
+        <div class="text-center mb-16">
+            <h2 class="font-mondwest text-5xl sm:text-[64px] font-normal leading-none tracking-[-0.4px] text-white mb-4">
+                A bit about me
+            </h2>
+        </div>
+
+        <!-- Bento Grid: Exact 3 Rows Matching Dharmesh Structure -->
+        <div class="flex flex-col gap-6">
+
+            <!-- Row 1: Context (692px / 8 cols) + Portrait (284px / 4 cols) - Exact 292px Height -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+                <!-- Card 1A: Some context (Dharmesh Conversational Brevity ~68 words) -->
+                <div class="rounded-[40px] bg-[#141414] border border-white/[0.04] md:col-span-8 p-8 sm:p-10 flex flex-col justify-between h-auto md:h-[292px]">
+                    <div>
+                        <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white mb-4">
+                            Some context
+                        </h3>
+                        <div class="space-y-4 text-sm sm:text-base leading-relaxed text-white/60 font-montreal">
+                            <p>
+                                I am a Software Development Engineer &amp; ML Systems Specialist pursuing my M.E. in CSE (B.E. Honors in Full Stack Development) at Anna University.
+                            </p>
+                            <p>
+                                Awarded Best Outgoing Student (2025). From building production exam SaaS platforms to authoring rootless Docker benchmarks for autonomous coding agents at Handshake AI, I engineer robust systems built to scale.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1B: Standalone Static Pixel Art Avatar (Exact 292px Height Matching Card 1A) -->
+                <div class="rounded-[40px] bg-[#141414] border border-white/[0.04] md:col-span-4 p-0 overflow-hidden relative group h-[292px] flex items-center justify-center">
+                    <img src="projects/pavithran_portrait_pixel.png"
+                         alt="Pavithran R Pixel Portrait"
+                         class="w-full h-full object-cover rounded-[40px] transition-transform duration-700 group-hover:scale-105"
+                         loading="lazy">
+                </div>
+
+            </div>
+
+            <!-- Row 2: Education (284px / 4 cols) + Work Experience (692px / 8 cols) - Exact 293px Height -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+                <!-- Card 2: Education (4 Cols, Exact 293px Height) -->
+                <div class="rounded-[40px] bg-[#141414] border border-white/[0.04] md:col-span-4 p-8 sm:p-10 flex flex-col justify-between h-auto md:h-[293px]">
+                    <div>
+                        <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white mb-4">
+                            Education
+                        </h3>
+                        
+                        <!-- Architectural Node Line Matching Dharmesh -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></div>
+                            <div class="flex-1 h-px bg-white/10"></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <span class="text-xs font-mono text-[#737373] block mb-1">2024 — 2026</span>
+                                <h4 class="font-montreal text-base font-medium text-white leading-tight">M.E. Computer Science &amp; Eng.</h4>
+                                <p class="font-montreal text-xs sm:text-sm text-white/50 mt-0.5">Anna Univ. · Best Outgoing Student</p>
+                            </div>
+                            <div class="pt-3 border-t border-white/[0.04]">
+                                <span class="text-xs font-mono text-[#737373] block mb-1">2020 — 2024</span>
+                                <h4 class="font-montreal text-base font-medium text-white leading-tight">B.E. Computer Science &amp; Eng.</h4>
+                                <p class="font-montreal text-xs sm:text-sm text-white/50 mt-0.5">Honors in Full Stack · CGPA: 8.35</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Work Experience (8 Cols, Exact 293px Height) -->
+                <div class="rounded-[40px] bg-[#141414] border border-white/[0.04] md:col-span-8 p-8 sm:p-10 flex flex-col justify-between h-auto md:h-[293px]">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white">
+                                Work experience
+                            </h3>
+                            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/50 hover:text-white transition-colors flex items-center gap-1 group/res">
+                                <span>Resume</span>
+                                <span class="group-hover/res:translate-x-0.5 group-hover/res:-translate-y-0.5 transition-transform">↗</span>
+                            </a>
+                        </div>
+
+                        <!-- Continuous Horizontal Timeline Rule across all 3 milestones -->
+                        <div class="flex items-center gap-2 mb-6">
+                            <div class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></div>
+                            <div class="flex-1 h-px bg-white/10"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></div>
+                            <div class="flex-1 h-px bg-white/10"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4">
+                            <div>
+                                <span class="text-xs font-mono text-[#737373] block mb-1">Jun 2023 – Jul 2023</span>
+                                <h4 class="font-montreal text-base font-medium text-white leading-tight">Web Developer Intern</h4>
+                                <p class="font-montreal text-sm text-white/50 mt-0.5">Zerone Technology</p>
+                            </div>
+                            <div>
+                                <span class="text-xs font-mono text-[#737373] block mb-1">Jan 2024 – May 2025</span>
+                                <h4 class="font-montreal text-base font-medium text-white leading-tight">Full Stack Developer</h4>
+                                <p class="font-montreal text-sm text-white/50 mt-0.5">QPGen · Campus SaaS</p>
+                            </div>
+                            <div>
+                                <span class="text-xs font-mono text-[#737373] block mb-1">Jun 2025 – Present</span>
+                                <h4 class="font-montreal text-base font-medium text-white leading-tight">LLM Evaluation Engineer</h4>
+                                <p class="font-montreal text-sm text-white/50 mt-0.5">Handshake AI (Dynamo)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Cubing + Football (Exact 488px Square Cards Matching Dharmesh) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Card 4: I love cubing (488px Square - Exact Dharmesh Gaming Card 1:1 Layout) -->
+                <div class="rounded-[40px] bg-[#141414] border border-white/[0.04] p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden h-[488px]">
+                    <div class="space-y-3 z-10 flex-shrink-0">
+                        <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white drop-shadow-md">
+                            I love cubing
+                        </h3>
+                        <p class="font-montreal text-white/60 text-sm leading-relaxed max-w-[95%]">
+                            Usually prefer 3x3 speed solves, but hey who doesn't love the mental flow of sub-20s CFOP algorithms with friends.
+                        </p>
+                    </div>
+
+                    <!-- Bottom collage: Arrow + Text on left, 3 columns of cubes on right matching Dharmesh 1:1 -->
+                    <div class="relative w-full z-10 flex items-end justify-between mt-auto pt-2">
+                        <!-- Left: Arrow curving up towards hero cube + handwriting underneath -->
+                        <div class="flex flex-col items-start select-none pl-1 mb-1 flex-shrink-0">
+                            <img src="projects/arrow_bright.png" alt="Curved loop arrow" class="w-16 h-auto max-h-24 object-contain ml-3 mb-1">
+                            <img src="projects/text_bright.png" alt="some of my favourites" class="w-36 h-auto object-contain opacity-80">
+                        </div>
+
+                        <!-- Right: Cube Tiles Grid -->
+                        <div class="flex items-end gap-3 translate-x-3">
+                            <!-- Hero 3x3 Cube Tile -->
+                            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border border-white/10 bg-[#1c1c1f] shadow-2xl transition-transform duration-500 hover:scale-105 flex-shrink-0">
+                                <img src="projects/cube_hero_tile.jpg" alt="Classic 3x3 Rubik's Cube" class="w-full h-full object-cover">
+                            </div>
+
+                            <!-- Column 2: Stacked 2x2 Pocket Cube + Mirror Cube -->
+                            <div class="flex flex-col gap-2.5 flex-shrink-0">
+                                <div class="w-16 h-16 sm:w-[68px] sm:h-[68px] rounded-xl overflow-hidden border border-white/10 bg-[#1c1c1f] shadow-xl transition-transform duration-500 hover:scale-105 flex items-center justify-center p-2">
+                                    <img src="projects/cube_user_pocket_2x2.png" alt="2x2 Pocket Cube" class="w-full h-full object-contain">
+                                </div>
+                                <div class="w-16 h-16 sm:w-[68px] sm:h-[68px] rounded-xl overflow-hidden border border-white/10 bg-[#1c1c1f] shadow-xl transition-transform duration-500 hover:scale-105 flex items-center justify-center p-2">
+                                    <img src="projects/cube_user_mirror.png" alt="Silver Mirror Cube" class="w-full h-full object-contain">
+                                </div>
+                            </div>
+
+                            <!-- Column 3: Stacked GAN Speedcube + 5x5 Speedcube (Peeking off right edge) -->
+                            <div class="flex flex-col gap-2.5 flex-shrink-0">
+                                <div class="w-16 h-16 sm:w-[68px] sm:h-[68px] rounded-xl overflow-hidden border border-white/10 bg-[#1c1c1f] shadow-xl transition-transform duration-500 hover:scale-105">
+                                    <img src="projects/cube_gan_square.jpg" alt="GAN Magnetic 3x3" class="w-full h-full object-cover">
+                                </div>
+                                <div class="w-16 h-16 sm:w-[68px] sm:h-[68px] rounded-xl overflow-hidden border border-white/10 bg-[#1c1c1f] shadow-xl transition-transform duration-500 hover:scale-105 flex items-center justify-center p-2">
+                                    <img src="projects/cube_user_5x5.jpg" alt="5x5 Speedcube" class="w-full h-full object-contain">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: & football (Pure Photographic Gallery, 6 Dots, No Text Badge - 488px Square) -->
+                <div id="football-carousel-card" class="rounded-[40px] bg-[#141414] border border-white/[0.04] p-0 overflow-hidden relative group h-[488px] flex flex-col justify-between">
+                    <!-- Slides Container (Pure Gallery, Stadium Removed) -->
+                    <div id="football-carousel" class="absolute inset-0 w-full h-full">
+                        <!-- Slide 1: Trophy Kiss Hero -->
+                        <img src="projects/football_slide_1_trophy.jpg" alt="Zonal Runners-Up Trophy Kiss Hero" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-100 transition-opacity duration-700" loading="lazy">
+                        <!-- Slide 2: Award Presentation (Head Fully Visible via object-[center_12%]) -->
+                        <img src="projects/football_slide_6_award.jpg" alt="Player of the Tournament Recognition" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700" loading="lazy">
+                        <!-- Slide 3: Given Ronaldo Picture -->
+                        <img src="projects/cr7_user_given.jpg" alt="Cristiano Ronaldo Given Photo" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700" loading="lazy">
+                        <!-- Slide 4: Zonal Championship Squad -->
+                        <img src="projects/football_slide_2_team.jpg" alt="Zonal Runners-Up Championship Squad" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700" loading="lazy">
+                        <!-- Slide 5: Inter-College Championship Cup -->
+                        <img src="projects/football_slide_4_cup.jpg" alt="Inter-College Championship Cup" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700" loading="lazy">
+                        <!-- Slide 6: Silverware Collection -->
+                        <img src="projects/football_slide_7_trophies.jpg" alt="University Athletic Silverware Collection" class="football-slide carousel-slide absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700" loading="lazy">
+                    </div>
+
+                    <!-- Gradient Overlays for High-Contrast Text Legibility -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none z-10"></div>
+
+                    <!-- Overlaid Title Header Matching Dharmesh (& photography / & football) -->
+                    <div class="relative z-20 p-8 sm:p-10">
+                        <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-[1.25] tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+                            &amp; football
+                        </h3>
+                    </div>
+
+                    <!-- Overlaid Bottom Micro-Dots (Floating Directly on Image, NO Pill Container Box - 6 Dots) -->
+                    <div class="relative z-20 pb-8 sm:pb-10 flex items-center justify-center">
+                        <div id="football-dots-bar" class="flex items-center gap-2">
+                            <button class="dot-btn w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)] transition-all scale-110" data-target="0" aria-label="Slide 1"></button>
+                            <button class="dot-btn w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 transition-all scale-100" data-target="1" aria-label="Slide 2"></button>
+                            <button class="dot-btn w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 transition-all scale-100" data-target="2" aria-label="Slide 3"></button>
+                            <button class="dot-btn w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 transition-all scale-100" data-target="3" aria-label="Slide 4"></button>
+                            <button class="dot-btn w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 transition-all scale-100" data-target="4" aria-label="Slide 5"></button>
+                            <button class="dot-btn w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 transition-all scale-100" data-target="5" aria-label="Slide 6"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+<footer id="contact" class="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-black">
+        
+        <!-- Symmetrical CAD Vector Lines -->
+        <div class="pinstripe-stack">
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+            <div class="pinstripe"></div>
+        </div>
+
+        <!-- Symmetrical Bottom Crimson Sun Dome (Clean, No Copyright Text) -->
+        <div class="sun-dome-bottom"></div>
+
+        <!-- Three.js Ambient Fluid Wave Glow (Subtle, Organic, Zero Ribbons) -->
+        <div id="footer-canvas-container" class="webgl-canvas-container"></div>
+        
+        <div class="grain-overlay"></div>
+
+        <!-- Footer Content Stack (1:1 Exact Dharmesh Alignment & Sizing) -->
+        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center my-auto translate-y-3 sm:translate-y-4">
+            
+            <h2 class="font-mondwest text-[44px] font-normal leading-[42px] tracking-[-0.4px] text-white text-center whitespace-nowrap m-0">
+                Your turn. Say hello
+            </h2>
+            <p class="font-montreal text-[14px] text-white/65 leading-tight text-center whitespace-nowrap mt-3.5 mb-0 font-normal">
+                Have an opportunity, wanna collaborate on something cool or just say hello!
+            </p>
+
+            <!-- 5 Buttons in a Row (Dharmesh 1:1) -->
+            <div class="flex items-center justify-center gap-4 mt-12">
+                <!-- Twitter / X -->
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Twitter">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M24 4.34c-.902.392-1.856.65-2.832.769a4.956 4.956 0 0 0 2.172-2.724 9.852 9.852 0 0 1-3.132 1.2 4.92 4.92 0 0 0-8.4 4.488 13.968 13.968 0 0 1-10.14-5.148 4.992 4.992 0 0 0-.66 2.484A4.908 4.908 0 0 0 3.192 9.5 4.86 4.86 0 0 1 .96 8.889v.06a4.92 4.92 0 0 0 3.96 4.8c-.428.13-.873.199-1.32.204a5.877 5.877 0 0 1-.924-.084 4.932 4.932 0 0 0 4.596 3.408A9.864 9.864 0 0 1 0 19.317a13.884 13.884 0 0 0 7.548 2.22A13.908 13.908 0 0 0 21.6 7.52v-.636A10.116 10.116 0 0 0 24 4.34Z" fill="#fff"/></svg>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Instagram">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M18.408 4.152a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Zm5.52 2.904a9.107 9.107 0 0 0-.552-2.916 5.927 5.927 0 0 0-1.392-2.124A5.64 5.64 0 0 0 19.86.636a8.76 8.76 0 0 0-2.916-.564C15.672 0 15.264 0 12 0 8.736 0 8.328 0 7.056.072A8.76 8.76 0 0 0 4.14.636a5.736 5.736 0 0 0-2.124 1.38A5.64 5.64 0 0 0 .636 4.14a8.76 8.76 0 0 0-.564 2.916C0 8.328 0 8.736 0 12c0 3.264 0 3.672.072 4.944a8.76 8.76 0 0 0 .564 2.916 5.64 5.64 0 0 0 1.38 2.124 5.737 5.737 0 0 0 2.124 1.38 8.761 8.761 0 0 0 2.916.564C8.328 24 8.736 24 12 24c3.264 0 3.672 0 4.944-.072a8.761 8.761 0 0 0 2.916-.564 5.64 5.64 0 0 0 2.124-1.38 5.82 5.82 0 0 0 1.392-2.124 9.1 9.1 0 0 0 .552-2.916c0-1.272.072-1.68.072-4.944 0-3.264 0-3.672-.072-4.944Zm-2.16 9.744a6.731 6.731 0 0 1-.408 2.232c-.192.522-.5.994-.9 1.38-.39.397-.86.704-1.38.9-.716.261-1.47.4-2.232.408-1.2.06-1.644.072-4.8.072-3.156 0-3.6 0-4.8-.072a6.877 6.877 0 0 1-2.328-.36 3.925 3.925 0 0 1-1.32-.9 3.6 3.6 0 0 1-.888-1.38 6.648 6.648 0 0 1-.48-2.28c0-1.2-.072-1.644-.072-4.8 0-3.156 0-3.6.072-4.8a6.65 6.65 0 0 1 .42-2.28A3.6 3.6 0 0 1 3.6 3.6a3.77 3.77 0 0 1 1.32-.96 6.876 6.876 0 0 1 2.28-.408c1.2 0 1.644-.072 4.8-.072 3.156 0 3.6 0 4.8.072a6.733 6.733 0 0 1 2.232.408 3.672 3.672 0 0 1 1.428.96c.393.369.7.82.9 1.32.267.73.405 1.502.408 2.28.06 1.2.072 1.644.072 4.8 0 3.156-.012 3.6-.072 4.8ZM12 5.844A6.156 6.156 0 1 0 18.168 12 6.145 6.145 0 0 0 12 5.844Zm0 10.152a3.997 3.997 0 1 1 0-7.994 3.997 3.997 0 0 1 0 7.994Z" fill="#fff"/></svg>
+                </a>
+
+                <!-- Center Email Me Pill Button -->
+                <a href="mailto:pavithranraja1729@gmail.com" class="email-pill-btn">
+                    <span>Email me</span>
+                </a>
+
+                <!-- Dribbble / Portfolio -->
+                <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Projects">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm0 2.4a9.528 9.528 0 0 1 6.612 2.664 29.916 29.916 0 0 1-5.796 2.616 34.885 34.885 0 0 0-3.444-4.908A9.528 9.528 0 0 1 12 2.4ZM7.068 3.78A32.592 32.592 0 0 1 10.44 8.4a30.133 30.133 0 0 1-7.2.888h-.432a9.6 9.6 0 0 1 4.26-5.508ZM4.8 18.372A9.48 9.48 0 0 1 2.4 12v-.348h.816a32.002 32.002 0 0 0 8.4-1.2c.384.732.744 1.488 1.092 2.268a17.16 17.16 0 0 0-5.148 2.892l-.36.288a25.202 25.202 0 0 0-2.4 2.472ZM12 21.6a9.504 9.504 0 0 1-5.364-1.644c.584-.67 1.21-1.303 1.872-1.896l.384-.324a15.157 15.157 0 0 1 4.8-2.724 38.396 38.396 0 0 1 1.68 6A9.697 9.697 0 0 1 12 21.6Zm5.556-1.788a41.837 41.837 0 0 0-1.536-5.352h.408a.3.3 0 0 1 .144 0h.828c1.263.004 2.516.219 3.708.636a9.528 9.528 0 0 1-3.552 4.716ZM17.4 12h-.744a1.87 1.87 0 0 0-.468 0c-.326.02-.65.06-.972.12h-.12a60.28 60.28 0 0 0-1.104-2.4 31.882 31.882 0 0 0 6.156-2.88A9.6 9.6 0 0 1 21.6 12v.612A13.777 13.777 0 0 0 17.4 12Z" fill="#fff"/></svg>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/r-pavithran" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="LinkedIn">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M22.092 0H1.764A1.74 1.74 0 0 0 0 1.716v20.568A1.74 1.74 0 0 0 1.764 24h20.328a1.74 1.74 0 0 0 1.764-1.716V1.716A1.742 1.742 0 0 0 22.092 0ZM7.236 20.088h-3.6v-10.8h3.6v10.8Zm-1.8-12.312a1.872 1.872 0 0 1 0-3.744 1.884 1.884 0 1 1 0 3.744ZM20.22 20.088h-3.6v-5.796c0-1.452-.516-2.4-1.824-2.4a1.98 1.98 0 0 0-1.848 1.308 2.4 2.4 0 0 0-.12.876v6h-3.6v-10.8h3.6V10.8A3.601 3.601 0 0 1 16.08 9c2.4 0 4.14 1.548 4.14 4.872v6.216Z" fill="#fff"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-Out Engineering Archive Drawer -->
+    
+
+<div id="archive-drawer" class="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="w-full max-w-2xl bg-[#0e0e11] border-l border-white/10 h-full overflow-y-auto p-8 relative flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-6 border-b border-white/[0.08] mb-8">
+                    <div>
+                        <h3 class="font-mondwest text-3xl text-white">Engineering Archive</h3>
+                        <p class="text-xs text-white/50">Complete 18-project engineering archive of production software & machine learning systems</p>
+                    </div>
+                    <button onclick="closeArchiveDrawer()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Close Drawer">✕</button>
+                </div>
+                <div class="space-y-6">
+
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/1.png" alt="QPGen: Automated Question Paper Generator" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-[10px] font-mono uppercase text-white/40">Production SaaS</span>
+                                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">17 Mos 0% Downtime</span>
+                            </div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">QPGen: Automated Question Paper Generator</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">Institutional exam platform serving 50+ faculty across 8 departments. Features 3NF PostgreSQL on Supabase (5,000+ constraints), Bloom's Taxonomy rules, and AST-to-PDF compilation under 10s.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">PostgreSQL (3NF)</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Supabase</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">AST-to-PDF</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/2.jpg" alt="EZQ: Tokenized Queue Management System" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">EZQ: Tokenized Queue Management System</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered SaaS platform that transforms traditional waiting lines into intelligent virtual queues with real-time tracking, predictive analytics, and seamless remote token management.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Tailwind CSS</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/3.jpg" alt="Result Portal" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Result Portal</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A university examination result management system with real-time result publishing, academic history tracking, and comprehensive administrative controls.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Tailwind CSS</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/4.jpg" alt="AI Integrated Report Generator" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Vision & Document AI</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">AI Integrated Report Generator</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered SaaS platform that autonomously researches, generates, formats, and exports professional report documents from a simple project description.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">CSS3</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/5.jpg" alt="Alumni Atlas: Alumni Connector Platform" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Alumni Atlas: Alumni Connector Platform</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A centralized full-stack web application that streamlines alumni management, networking, event coordination, and institutional engagement through a secure digital platform.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">CSS3</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/6.jpg" alt="ATS Resume Builder & Analyzer" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Vision & Document AI</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">ATS Resume Builder & Analyzer</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered SaaS platform that builds, analyzes, and optimizes ATS-friendly resumes through intelligent automation, conversational guidance, and job-specific customization.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/7.jpg" alt="Certificate Generator" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Certificate Generator</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A secure workflow-driven web application that automates college certificate requests, sequential authority approvals, and digital certificate generation.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">ReactJS</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">CSS3</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/8.jpg" alt="Faculty Task Management System" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Faculty Task Management System</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An intelligent SaaS platform that automates faculty scheduling, workload management, class substitutions, and student progress tracking for educational institutions.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Tailwind CSS</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Node.js</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/9.jpg" alt="INTELLIDOC: Document Analyzer & Data Extractor" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Vision & Document AI</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">INTELLIDOC: Document Analyzer & Data Extractor</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered document intelligence platform that combines conversational PDF analysis with precision data extraction, OCR, multilingual support, and advanced document processing.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React 18</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Vite</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Tailwind CSS</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/10.jpg" alt="Mudra Mastery: Gamified Bharatanatyam Learner" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-[10px] font-mono uppercase text-white/40">Edge CV • 60 FPS</span>
+                                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Live PWA</span>
+                            </div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Mudra Mastery: Classical Gesture AI</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">Recognizes 51 Bharatanatyam hand mudras in real time at 60 FPS using 21 MediaPipe coordinates, custom TFLite neural weights, and Gemini Vision API cloud fallback.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">MediaPipe 3D</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TensorFlow Lite</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React / Vite</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Gemini Vision</span></div>
+                            <div class="flex items-center gap-3">
+                                <a href="https://mudra-mastery.vercel.app" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-cyan-400 hover:text-white underline">Live PWA ↗</a>
+                                <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/11.jpeg" alt="Glaucoma Disease Detector" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Applied ML & Data</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Glaucoma Disease Detector</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered multi-modal glaucoma detection system that combines Fundus images, OCT scans, and clinical data to enable early diagnosis, progression risk prediction, and explainable medical insights.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">CSS3</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Bootstrap</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/12.jpeg" alt="Institute ERP System" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Institute ERP System</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A comprehensive role-based Institute ERP platform that digitizes and automates academic, administrative, and placement operations through a centralized, cloud-powered management system.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/13.jpg" alt="INSTA APPLY: Internship Management System" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Production SaaS</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">INSTA APPLY: Internship Management System</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A comprehensive SaaS-based internship management platform that centralizes internship discovery, application, tracking, and verification for students, faculty, and administrators.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React.js</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">HTML5</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/14.jpeg" alt="ML Based F1 Rookie Predictor" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Applied ML & Data</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">ML Based F1 Rookie Predictor</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered Formula 1 rookie predictor that uses junior-series performance data and machine learning to forecast rookie success tiers and rank future F1 prospects.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Python</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Pandas</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">NumPy</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Scikit-learn</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/15.jpg" alt="AI Integrated Medbot" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Vision & Document AI</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">AI Integrated Medbot</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">An AI-powered, multilingual SaaS public health chatbot that mitigates medical misinformation and tracks regional outbreaks in real-time using verified government databases.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">React</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TypeScript</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Tailwind CSS</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">JavaScript</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/16.jpeg" alt="Real-Time Face Anti-Spoofing & Adversarial Attack" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Vision & Document AI</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Real-Time Face Anti-Spoofing & Adversarial Attack</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">A dual-stream biometric security system that integrates YOLOv8 contextual detection and deep learning to prevent facial spoofing and presentation attacks in real-time.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Python</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">OpenCV</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">YOLOv8</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">ONNX</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/17.jpeg" alt="ML Based Flight Delay Predictor Detection" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="text-[10px] font-mono uppercase text-white/40 mb-1">Applied ML & Data</div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">ML Based Flight Delay Predictor Detection</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">Integrated ML and network simulation framework that predicts U.S. flight delays and models their propagation to improve operational resilience.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Python</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Pandas</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">NumPy</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Scikit-learn</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex gap-5 items-center">
+                        <img src="projects/18.jpg" alt="ML Based Sugar Content Analyser" class="w-24 h-20 rounded-xl object-cover object-top border border-white/10 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-[10px] font-mono uppercase text-white/40">NLP & Explainable AI</span>
+                                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">90%+ Accuracy • SHAP</span>
+                            </div>
+                            <h4 class="font-montreal text-base font-bold text-white mb-1">Deceptive Marketing NLP & Sugar Classifier</h4>
+                            <p class="text-xs text-white/60 line-clamp-2 mb-3">End-to-end NLP classification pipeline predicting high-sugar snacks from front-of-package marketing text. 13 benchmarked models, 5,000-feature LSA matrices, custom MLP neural net, and SHAP explainability.</p>
+                            <div class="flex flex-wrap gap-1.5 mb-2"><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">Python</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">TF-IDF / LSA</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">MLP Neural Net</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/60">SHAP XAI</span></div>
+                            <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/70 hover:text-white underline">Repository ↗</a>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+            <div class="pt-8 mt-8 border-t border-white/[0.08] text-center">
+                <button onclick="closeArchiveDrawer()" class="px-6 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] text-xs font-medium text-white transition-colors">Close Archive</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- THREE.JS FLUID GLOW SCRIPT                 -->
+    <!-- (Soft Elliptical Radial Halo, ZERO Ribbons) -->
+    <!-- ========================================== -->
+    <script>
+        // 1. Floating Navbar Show/Hide & Active Section Scroll-Spy
+    const navbar = document.getElementById('floating-navbar');
+    const navWork = document.getElementById('nav-work');
+    const navAbout = document.getElementById('nav-about');
+    const navContact = document.getElementById('nav-contact');
+    const navLogo = document.getElementById('nav-logo');
+    
+    const navSections = [
+        { id: 'work', link: navWork },
+        { id: 'about', link: navAbout },
+        { id: 'contact', link: navContact }
+    ];
+
+    function updateNavScrollSpy() {
+        const scrollY = window.scrollY;
+        
+        // Show / hide floating navbar
+        if (scrollY > 260) {
+            navbar.style.transform = 'translate(-50%, 0)';
+            navbar.style.opacity = '1';
+            navbar.style.pointerEvents = 'auto';
+        } else {
+            navbar.style.transform = 'translate(-50%, -48px)';
+            navbar.style.opacity = '0';
+            navbar.style.pointerEvents = 'none';
+        }
+
+        // Active Section Detection
+        const windowHeight = window.innerHeight;
+        const scrollPosition = scrollY + windowHeight * 0.42; // Optical trigger line at 42% viewport height
+        const documentBottom = document.documentElement.scrollHeight - windowHeight - 80;
+
+        let currentActive = null;
+
+        // If user is at or near page bottom, force Contact as active
+        if (scrollY >= documentBottom) {
+            currentActive = 'contact';
+        } else {
+            // Check each section in order
+            for (let i = 0; i < navSections.length; i++) {
+                const el = document.getElementById(navSections[i].id);
+                if (el) {
+                    const top = el.offsetTop;
+                    const height = el.offsetHeight;
+                    if (scrollPosition >= top && scrollPosition < top + height) {
+                        currentActive = navSections[i].id;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Update active class on links (active font glows and brightens in pure white)
+        navSections.forEach(sec => {
+            if (sec.link) {
+                if (sec.id === currentActive) {
+                    sec.link.classList.add('active');
+                } else {
+                    sec.link.classList.remove('active');
+                }
+            }
+        });
+
+        if (navLogo) {
+            if (scrollY < 260) {
+                navLogo.classList.add('active');
+            } else {
+                navLogo.classList.remove('active');
+            }
+        }
+    }
+
+    window.addEventListener('scroll', updateNavScrollSpy, { passive: true });
+    window.addEventListener('resize', updateNavScrollSpy, { passive: true });
+    updateNavScrollSpy(); // Initial call
+
+    // 2. Archive Drawer Controls
+    function openArchiveDrawer() {
+        const d = document.getElementById('archive-drawer');
+        d.style.opacity = '1';
+        d.style.pointerEvents = 'auto';
+    }
+    function closeArchiveDrawer() {
+        const d = document.getElementById('archive-drawer');
+        d.style.opacity = '0';
+        d.style.pointerEvents = 'none';
+    }
+    document.getElementById('archive-drawer').addEventListener('click', (e) => {
+        if (e.target.id === 'archive-drawer') closeArchiveDrawer();
+    });
+
+    // 3. Fluid Wave Shaders (Soft Organic Water Halo - Exact Dharmesh Mood)
+    function initAtmosphericWave(containerId, isBottom) {
+        const container = document.getElementById(containerId);
+        if (!container || typeof THREE === 'undefined') return;
+
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        container.appendChild(renderer.domElement);
+
+        const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = vec4(position, 1.0);
+            }
+        `;
+
+        // Exact Dharmesh Ambient Wave Equation (Fluid, subtle, concentrated around sun dome)
+        const fragmentShader = `
+            uniform float uTime;
+            uniform float uIsBottom;
+            varying vec2 vUv;
+
+            void main() {
+                vec2 uv = vUv;
+                
+                // Centered symmetrically at Sun Dome: (0.5, 1.0) for Top Dome, (0.5, 0.0) for Bottom Dome
+                vec2 center = vec2(0.5, uIsBottom > 0.5 ? 0.0 : 1.0);
+                
+                // Coordinates relative to dome
+                vec2 p = uv - center;
+
+                // Invert y for bottom dome
+                if (uIsBottom > 0.5) {
+                    p.y = -p.y;
+                }
+
+                // Vertical elongation: extends glow comfortably down until the 'Get in touch' button
+                vec2 pScaled = p;
+                pScaled.x *= 1.15; // Natural horizontal spread
+                pScaled.y *= 0.72; // Stretched vertically to reach 'Get in touch'
+
+                // Fluid water speed: fast enough to clearly see & feel living water in real time
+                float t = uTime * 1.15;
+
+                // Depth factor: 0.0 at dome rim -> 1.0 at 'Get in touch' button
+                float depth = clamp(p.y * 1.35, 0.0, 1.0);
+
+                // Water wave height decreases/settles down as it reaches the button (like water settling)
+                float waveAmplitude = mix(0.22, 0.06, depth);
+
+                // 1. Prominent, energetic Left-to-Right and Right-to-Left ocean wave currents
+                float wave1 = sin(pScaled.x * 2.8 - t * 1.75 + pScaled.y * 1.5) * waveAmplitude;
+                float wave2 = cos(pScaled.x * 2.0 + t * 1.35 - pScaled.y * 2.0) * (waveAmplitude * 0.85);
+                float wave3 = sin((pScaled.x * 1.5 + pScaled.y * 2.2) - t * 1.10) * (waveAmplitude * 0.60);
+                float horizontalWave = wave1 + wave2 + wave3;
+
+                // 2. Liquid 2D coordinate displacement
+                vec2 waterUV = pScaled;
+                waterUV.x += horizontalWave;
+                waterUV.y += cos(pScaled.x * 2.2 + t * 1.20) * waveAmplitude * 0.75 + sin(t * 0.85) * 0.06 * (1.0 - depth * 0.6);
+
+                float fluidDist = length(waterUV);
+                float baseDist = length(pScaled);
+
+                // 3. Ambient body modulated predominantly by living wave movement
+                float baseHalo = exp(-baseDist * baseDist * 1.85);
+                float waveHalo = exp(-fluidDist * fluidDist * 1.95);
+                // 70% active liquid motion + 30% ambient floor so movement is clearly felt!
+                float glow = baseHalo * 0.30 + waveHalo * 0.70;
+
+                // 4. Visible Liquid Water Caustics & Rolling Surface Shimmer
+                // This creates moving liquid bands of light that the eye immediately tracks!
+                float caustics1 = sin(fluidDist * 9.5 - t * 2.1 + wave1 * 3.5) * 0.12;
+                float caustics2 = cos(waterUV.x * 5.5 - waterUV.y * 4.5 - t * 1.5) * 0.08;
+                float waterShimmer = (caustics1 + caustics2) * (1.0 - depth * 0.5) * baseHalo;
+                glow = clamp(glow + waterShimmer, 0.0, 1.0);
+
+                // 5. Clean, soft fade out before Bento section (0% red in Bento)
+                glow *= smoothstep(1.0, 0.78, p.y);
+
+                // Exact Dharmesh crimson rgb(221, 14, 69) (#dd0e45)
+                vec3 crimson = vec3(0.867, 0.055, 0.271);
+                
+                // Maintained soft & dim: NOT dark red, but ethereal, delicate wine ambient light
+                vec3 color = crimson * glow * 0.72;
+                float alpha = glow * 0.66;
+
+                gl_FragColor = vec4(color, alpha);
+            }
+        `;
+
+        const uniforms = {
+            uTime: { value: 0 },
+            uIsBottom: { value: isBottom ? 1.0 : 0.0 }
+        };
+
+        const material = new THREE.ShaderMaterial({
+            vertexShader,
+            fragmentShader,
+            uniforms,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const geometry = new THREE.PlaneGeometry(2, 2);
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        let isVisible = true;
+        const observer = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+        });
+        observer.observe(container);
+
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isVisible) return;
+            uniforms.uTime.value = clock.getElapsedTime();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            renderer.setSize(w, h);
+        });
+    }
+
+    
+    
+    // Football Carousel Controller (Dharmesh 1:1)
+        // Football Carousel Controller (Continuous Slideshow 3.0s Auto-Advance)
+    function initFootballCarousel() {
+        const card = document.getElementById('football-carousel-card');
+        if (!card) return;
+
+        const slides = card.querySelectorAll('.football-slide, .carousel-slide');
+        const dots = card.querySelectorAll('.dot-btn');
+        if (!slides.length || !dots.length) return;
+
+        let currentIndex = 0;
+        let autoInterval = null;
+
+        function goToSlide(index) {
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            currentIndex = index;
+
+            slides.forEach((slide, i) => {
+                if (i === currentIndex) {
+                    slide.classList.remove('opacity-0', 'pointer-events-none');
+                    slide.classList.add('opacity-100');
+                } else {
+                    slide.classList.remove('opacity-100');
+                    slide.classList.add('opacity-0', 'pointer-events-none');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) {
+                    dot.className = 'dot-btn w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)] transition-all scale-110';
+                } else {
+                    dot.className = 'dot-btn w-2 h-2 rounded-full bg-white/30 hover:bg-white/70 transition-all scale-100';
+                }
+            });
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoInterval = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, 3000);
+        }
+
+        function stopAutoPlay() {
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+            }
+        }
+
+        // Dot navigation
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(idx);
+                startAutoPlay();
+            });
+        });
+
+        // Clicking anywhere on card advances to next slide and restarts timer
+        card.addEventListener('click', () => {
+            goToSlide(currentIndex + 1);
+            startAutoPlay();
+        });
+
+        goToSlide(0);
+        startAutoPlay();
+    }
+
+    function launchShaders() {
+        initAtmosphericWave('hero-canvas-container', false);
+        initAtmosphericWave('footer-canvas-container', true);
+        initFootballCarousel();
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', launchShaders);
+    } else {
+        launchShaders();
+        
+    }
+    </script>
+
+    <!-- ========================================================================== -->
+    <!-- INTERACTIVE PROJECT FULL INFO MODAL SHEET (High-End Frosted Glass UX)     -->
+    <!-- Triggered by clicking any Work card; shows deep tech stack & architecture -->
+    <!-- ========================================================================== -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="modal-backdrop" onclick="closeProjectModal()" class="absolute inset-0 bg-black/85 backdrop-blur-md opacity-0 transition-opacity duration-300"></div>
+
+        <!-- Modal Container -->
+        <div id="modal-container" class="relative w-full max-w-3xl max-h-[90vh] bg-[#0c0c0d] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col scale-95 transition-all duration-300">
+            <!-- Header Bar -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-white/[0.02]">
+                <div class="flex items-center gap-3">
+                    <span id="modal-category" class="text-xs font-mono uppercase tracking-widest text-neutral-400"></span>
+                </div>
+                <button onclick="closeProjectModal()" class="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all text-sm font-mono" aria-label="Close modal">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Scrollable Content Body -->
+            <div class="overflow-y-auto p-6 sm:p-8 space-y-6">
+                <!-- Project Title & Lead -->
+                <div>
+                    <h2 id="modal-title" class="font-mondwest text-3xl sm:text-4xl text-white font-normal mb-3"></h2>
+                    <p id="modal-lead" class="font-montreal text-neutral-300 text-sm sm:text-base leading-relaxed"></p>
+                </div>
+
+                <!-- Preview Image -->
+                <div class="rounded-xl overflow-hidden border border-white/10 bg-black/40 shadow-inner">
+                    <img id="modal-image" src="" alt="Project Preview" class="w-full h-auto object-cover max-h-[340px]">
+                </div>
+
+                <!-- Architecture & Technical Depth -->
+                <div class="space-y-3">
+                    <h4 class="font-mono text-xs uppercase tracking-widest text-white/60">System Architecture & Engineering Highlights</h4>
+                    <ul id="modal-highlights" class="space-y-2 text-sm text-neutral-300 font-montreal list-disc list-inside leading-relaxed"></ul>
+                </div>
+
+                <!-- Deep Dive Paragraph -->
+                <div class="space-y-2">
+                    <h4 class="font-mono text-xs uppercase tracking-widest text-white/60">Technical Deep Dive</h4>
+                    <p id="modal-deepdive" class="font-montreal text-sm text-neutral-400 leading-relaxed"></p>
+                </div>
+
+                <!-- Full Technical Stack Tags -->
+                <div class="space-y-3 pt-2">
+                    <h4 class="font-mono text-xs uppercase tracking-widest text-white/60">Technical Arsenal & Frameworks Used</h4>
+                    <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Action Links -->
+                <div class="pt-4 border-t border-white/[0.08] flex flex-wrap items-center gap-4">
+                    <a id="modal-link-demo" href="#" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs font-medium tracking-wide transition-all shadow-lg flex items-center gap-1.5">
+                        <span>Launch Project</span>
+                        <span>↗</span>
+                    </a>
+                    <a id="modal-link-code" href="#" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-white text-xs font-medium tracking-wide transition-all flex items-center gap-1.5">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        <span>Source Code</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Data Store & Modal Controller -->
+    <script>
+    const PROJECTS_DATABASE = {
+        qpgen: {
+            title: "Automated Exam Infrastructure (QPGen)",
+            category: "CAMPUS SAAS • 2024–PRESENT • PRODUCTION",
+            lead: "Independently architected and deployed a production examination SaaS serving 50+ faculty across 8 academic departments for 1.5+ consecutive years without unplanned downtime.",
+            image: "projects/1.png",
+            highlights: [
+                "<strong>3NF PostgreSQL Schema:</strong> Normalized database on Supabase mapping 5,000+ curriculum questions to Bloom's Revised Taxonomy cognitive domains and difficulty constraints.",
+                "<strong>AST-to-PDF Engine:</strong> Automated document compiler transforming dynamic question selections into standardized, high-resolution university examination papers in under 10 seconds.",
+                "<strong>Role-Based Multi-Tenancy:</strong> Secure role-gated administration with real-time paper approval workflows and departmental audit trails."
+            ],
+            deepdive: "QPGen transformed an error-prone, 2-week manual exam drafting process into an instantaneous, strictly regulated automated pipeline. The platform enforces syllabus coverage rules, balances cognitive depth across tiers (Remember, Understand, Apply, Analyze), and exports camera-ready university exam papers with cryptographic integrity.",
+            tags: ["React.js", "PostgreSQL", "Supabase", "TypeScript", "TailwindCSS", "PDF Generation", "AST Compilation", "RBAC Security"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        mudra: {
+            title: "Real-time Hand Gesture AI (Mudra)",
+            category: "AI & COMPUTER VISION • RESEARCH & DEPLOYMENT",
+            lead: "Engineered an edge-optimized computer vision pipeline translating intricate classical Bharatanatyam mudras into interactive audio-visual feedback in under 45ms.",
+            image: "projects/10.jpg",
+            highlights: [
+                "<strong>21 3D Coordinate Landmark Normalization:</strong> Custom kinematic normalization layer transforming raw MediaPipe coordinate streams into scale- and rotation-invariant hand vectors.",
+                "<strong>99.4% Multi-Class Precision:</strong> Tuned lightweight neural classifier classifying complex asamyutta (single hand) mudras in real-time edge environments.",
+                "<strong>Web Audio Synthesizer:</strong> Integrated low-latency Web Audio API triggering melodic feedback corresponding to correct mudra alignment."
+            ],
+            deepdive: "Mudra bridges cultural preservation with modern computer vision. Traditional classical dance education requires constant micro-posture correction. By providing immediate optical validation with zero hardware beyond a standard laptop webcam, Mudra enables students to self-correct kinematic precision.",
+            tags: ["MediaPipe", "TensorFlow.js", "Computer Vision", "Python", "FastAPI", "Web Audio API", "Edge ML"],
+            demo: "https://mudra-mastery.vercel.app",
+            code: "https://github.com/Pavithran1729"
+        },
+        ezq: {
+            title: "Download Acceleration Engine (EZQ)",
+            category: "SYSTEMS & NETWORKING • CORE INFRASTRUCTURE",
+            lead: "Multi-threaded segmented download manager utilizing HTTP Range requests, dynamic chunk partitioning, and real-time checksum validation to maximize connection bandwidth.",
+            image: "projects/10.jpg",
+            highlights: [
+                "<strong>HTTP Range Segmentation:</strong> Parallel chunk download worker threads maximizing socket throughput across high-latency network connections.",
+                "<strong>Dynamic Socket Pool:</strong> Self-tuning connection pool adjusting concurrency based on real-time TCP window congestion and packet loss metrics.",
+                "<strong>Automatic Checksum Integrity:</strong> Background SHA-256 stream hashing ensuring bit-for-bit file authenticity upon segment reassembly."
+            ],
+            deepdive: "Standard browser download engines suffer from single-stream TCP bottlenecking. EZQ breaks files into dynamic byte ranges, retrieves segments concurrently over multiplexed connections, and stitches streams directly to disk using buffered I/O, yielding up to 3.8x faster transfer rates.",
+            tags: ["Python", "AsyncIO", "TCP/IP Networking", "HTTP Range", "Multithreading", "Stream I/O", "SHA-256"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        terminal: {
+            title: "Autonomous Agent Sandbox (Terminal-Bench)",
+            category: "AI EVALUATION & DOCKER • HANDSHAKE AI 2026",
+            lead: "Deterministic, rootless Docker test harness evaluating LLM coding agents against complex real-world Linux system administration and terminal tasks for Handshake AI.",
+            image: "projects/handshake_dynamo.png",
+            highlights: [
+                "<strong>Rootless Container Sandboxing:</strong> Secure multi-tenant container runtime with strict cgroup memory and CPU quotas preventing execution breakout.",
+                "<strong>100% Deterministic Testing:</strong> Ephemeral container lifecycles guaranteeing idempotent benchmarks across thousands of continuous evaluation cycles.",
+                "<strong>Telemetry & Verification:</strong> Automated bash test harness measuring agent token efficiency, command exit codes, and diff correctness."
+            ],
+            deepdive: "Evaluating autonomous AI agents requires safe, isolated, and strictly reproducible execution environments. Built for the Handshake AI evaluation suite, this sandbox provisions zero-trust Debian environments in milliseconds, feeds terminal instructions to agent models, and verifies system mutations against gold tests.",
+            tags: ["Docker", "Linux SysAdmin", "Bash Automation", "LLM Evaluation", "Python", "cgroups", "CI/CD Gates"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        result: {
+            title: "University Result & Analytics Engine",
+            category: "DATA ENGINE & ANALYTICS • CAMPUS SCALE",
+            lead: "High-throughput Anna University grading engine aggregating semester GPA trajectories, departmental cohort standings, and historical failure analysis across 10,000+ student records.",
+            image: "projects/3.jpg",
+            highlights: [
+                "<strong>Concurrent Extraction Pipeline:</strong> Distributed parser retrieving and structuring encrypted university grade sheets in parallel.",
+                "<strong>Trajectory Analytics:</strong> Automated GPA velocity calculations predicting academic standing risks 2 semesters in advance.",
+                "<strong>Cohort Ranking Engine:</strong> Instantaneous percentile rank generation across batch and regulation cohorts."
+            ],
+            deepdive: "University grade publications often overload official portals and lack analytical depth. This engine parses raw tabular grade exports into structured relational records, enabling academic advisors to visualize pass-percentage trends, detect tough subject anomalies, and identify students requiring academic intervention.",
+            tags: ["Python", "FastAPI", "PostgreSQL", "Pandas", "Data Analytics", "Concurrent Streams", "Chart.js"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        }
+    ,
+        ezq: {
+            title: "Tokenized Queue Management System (EZQ)",
+            category: "SYSTEMS & QUEUE AUTOMATION · 2024 · SAAS",
+            lead: "Cloud-based queue management SaaS platform transforming physical queues into intelligent virtual waiting lines with real-time analytics, operator controls, and remote token tracking.",
+            image: "projects/2.jpg",
+            highlights: [
+                "<strong>Predictive Wait Estimation:</strong> Real-time queuing heuristics and socket telemetry dynamically predicting counter turnaround times and queue velocity.",
+                "<strong>Multi-Service Counter Dispatch:</strong> Dedicated operator interface allowing staff to summon, transfer, hold, and resolve service tokens seamlessly.",
+                "<strong>Executive Analytics Dashboard:</strong> Live telemetry tracking service duration distributions, peak load hours, and departmental throughput efficiency."
+            ],
+            deepdive: "EZQ replaces congested waiting halls with transparent digital queues. Built with a modular React architecture and real-time state synchronization, the platform allows customers to join virtual lines remotely while providing service personnel with precise queue routing and capacity management tools.",
+            tags: ["React.js", "TypeScript", "Tailwind CSS", "Node.js", "WebSockets", "Queue Algorithms", "Real-Time Telemetry"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        terminal: {
+            title: "Autonomous Agent Evaluation Sandbox (Terminal-Bench)",
+            category: "AI EVALUATION & DOCKER · HANDSHAKE AI (PROJECT DYNAMO)",
+            lead: "Deterministic, rootless Docker test harness evaluating frontier LLM coding agents across complex computational coding tasks with zero-flakiness verification oracles.",
+            image: "projects/apex_neural_dashboard.png",
+            highlights: [
+                "<strong>Hermetic Container Isolation:</strong> Rootless cgroups-v2 sandbox containers isolating untrusted autonomous agent executions with isolated network stacks.",
+                "<strong>Anti-Cheat Verification Oracles:</strong> Dynamic oracle test suites resistant to AST bypasses, arithmetic obfuscation, and symbolic execution traps across 10,000+ runs.",
+                "<strong>100% Verifier Integrity Rate:</strong> Passed 15-stage CI review pipelines including AVA automated audits, cosine similarity filters, and pass2 multi-agent trials."
+            ],
+            deepdive: "Frontier autonomous coding models require rigorous, exploit-resistant benchmarks to measure real-world programming capability. As an Evaluation Engineer under Project Dynamo, authored production benchmark tasks for Terminal-Bench (TB2/TB3) enforcing strict determinism and anti-tampering constraints.",
+            tags: ["Docker", "Python", "Terminal-Bench", "Linux cgroups", "LLM Evaluation", "Dynamic Oracles", "Bash", "CI/CD"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        result_portal: {
+            title: "University Examination Result Analytics Portal",
+            category: "ACADEMIC ANALYTICS & DATABASE INFRASTRUCTURE · 2024",
+            lead: "High-throughput academic performance analytics and result publishing platform processing multi-semester cohort grades with instant percentile rankings.",
+            image: "projects/pulse_collab_network.png",
+            highlights: [
+                "<strong>Tabular Data Ingestion:</strong> High-speed parsing engine transforming raw academic tabular grade exports into structured relational records.",
+                "<strong>Cohort Percentile Engine:</strong> Instantaneous rank and pass-percentage trend computation across academic regulations and departments.",
+                "<strong>Advisory Performance Dashboard:</strong> Visual analytics interface identifying difficult course anomalies and flagging students for timely academic intervention."
+            ],
+            deepdive: "Official university portals often crumble under peak traffic during grade publication and offer zero analytical insight. This platform serves cached, high-speed result queries to thousands of concurrent students while equipping faculty advisors with cohort distribution charts and academic performance metrics.",
+            tags: ["React.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Pandas", "Chart.js", "REST APIs"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        // Backward compatibility aliases
+        apex: {
+            title: "Autonomous Agent Evaluation Sandbox (Terminal-Bench)",
+            category: "AI EVALUATION & DOCKER · HANDSHAKE AI (PROJECT DYNAMO)",
+            lead: "Deterministic, rootless Docker test harness evaluating frontier LLM coding agents across complex computational coding tasks with zero-flakiness verification oracles.",
+            image: "projects/apex_neural_dashboard.png",
+            highlights: [
+                "<strong>Hermetic Container Isolation:</strong> Rootless cgroups-v2 sandbox containers isolating untrusted autonomous agent executions with isolated network stacks.",
+                "<strong>Anti-Cheat Verification Oracles:</strong> Dynamic oracle test suites resistant to AST bypasses, arithmetic obfuscation, and symbolic execution traps.",
+                "<strong>100% Verifier Integrity Rate:</strong> Passed 15-stage CI review pipelines including AVA automated audits, cosine similarity filters, and pass2 multi-agent trials."
+            ],
+            deepdive: "Frontier autonomous coding models require rigorous, exploit-resistant benchmarks to measure real-world programming capability. As an Evaluation Engineer under Project Dynamo, authored production benchmark tasks for Terminal-Bench (TB2/TB3) enforcing strict determinism and anti-tampering constraints.",
+            tags: ["Docker", "Python", "Terminal-Bench", "Linux cgroups", "LLM Evaluation", "Dynamic Oracles", "Bash"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        },
+        aether: {
+            title: "Mudra Mastery: AI Classical Dance Gesture Recognition",
+            category: "AI & COMPUTER VISION · 2024–2025 · RESEARCH & DEPLOYMENT",
+            lead: "Engineered an edge-optimized computer vision Progressive Web App recognizing 50 classical Indian dance gestures (mudras) via webcam at 60 FPS with <50ms inference latency.",
+            image: "projects/aether_microkernel_preview.png",
+            highlights: [
+                "<strong>21 3D Coordinate Landmark Normalization:</strong> Custom kinematic normalization layer transforming raw MediaPipe coordinate streams into scale- and rotation-invariant hand vectors.",
+                "<strong>99.4% Multi-Class Precision:</strong> Tuned lightweight neural classifier classifying 50 complex single-hand (asamyutta) and double-hand mudras at 60 FPS.",
+                "<strong>Hybrid Vision Fallback:</strong> Cloud fallback integration with Google Gemini 2.5 Flash vision API for subtle micro-posture disambiguation."
+            ],
+            deepdive: "Mudra Mastery bridges cultural heritage preservation with state-of-the-art computer vision. Classical dance training requires continuous micro-posture feedback. By analyzing joint angles and spatial Euclidean geometry directly on device, Mudra gives students instant auditory and visual validation with zero specialized hardware.",
+            tags: ["MediaPipe", "React", "Gemini 2.5 Flash", "PWA", "Computer Vision", "Python", "FastAPI"],
+            demo: "https://mudra-mastery.vercel.app",
+            code: "https://github.com/Pavithran1729/mudra-detection-final-main"
+        },
+        pulse: {
+            title: "University Examination Result Analytics Portal",
+            category: "ACADEMIC ANALYTICS & DATABASE INFRASTRUCTURE · 2024",
+            lead: "High-throughput academic performance analytics and result publishing platform processing multi-semester cohort grades with instant percentile rankings.",
+            image: "projects/pulse_collab_network.png",
+            highlights: [
+                "<strong>Tabular Data Ingestion:</strong> High-speed parsing engine transforming raw academic tabular grade exports into structured relational records.",
+                "<strong>Cohort Percentile Engine:</strong> Instantaneous rank and pass-percentage trend computation across academic regulations and departments.",
+                "<strong>Advisory Performance Dashboard:</strong> Visual analytics interface identifying difficult course anomalies and flagging students for timely academic intervention."
+            ],
+            deepdive: "Official university portals often crumble under peak traffic during grade publication and offer zero analytical insight. This platform serves cached, high-speed result queries to thousands of concurrent students while equipping faculty advisors with cohort distribution charts and academic performance metrics.",
+            tags: ["React.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Pandas", "Chart.js"],
+            demo: "https://github.com/Pavithran1729",
+            code: "https://github.com/Pavithran1729"
+        }
+    };
+
+    window.openProjectModal = openProjectModal;
+    function openProjectModal(projectId) {
+        const data = PROJECTS_DATABASE[projectId];
+        if (!data) return;
+
+        document.getElementById('modal-category').textContent = data.category;
+        document.getElementById('modal-title').textContent = data.title;
+        document.getElementById('modal-lead').textContent = data.lead;
+        document.getElementById('modal-image').src = data.image;
+        document.getElementById('modal-image').alt = data.title;
+        document.getElementById('modal-deepdive').textContent = data.deepdive;
+
+        const highlightsContainer = document.getElementById('modal-highlights');
+        highlightsContainer.innerHTML = '';
+        data.highlights.forEach(h => {
+            const li = document.createElement('li');
+            li.innerHTML = h;
+            highlightsContainer.appendChild(li);
+        });
+
+        const tagsContainer = document.getElementById('modal-tags');
+        tagsContainer.innerHTML = '';
+        data.tags.forEach(t => {
+            const span = document.createElement('span');
+            span.className = 'px-2.5 py-1 rounded-md bg-white/[0.08] border border-white/10 text-white/90 text-xs font-mono font-medium';
+            span.textContent = t;
+            tagsContainer.appendChild(span);
+        });
+
+        document.getElementById('modal-link-demo').href = data.demo;
+        document.getElementById('modal-link-code').href = data.code;
+
+        const modal = document.getElementById('project-modal');
+        const backdrop = document.getElementById('modal-backdrop');
+        const container = document.getElementById('modal-container');
+
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+        container.classList.remove('scale-95');
+        container.classList.add('scale-100');
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.closeProjectModal = closeProjectModal;
+    function closeProjectModal() {
+        const modal = document.getElementById('project-modal');
+        const backdrop = document.getElementById('modal-backdrop');
+        const container = document.getElementById('modal-container');
+        if (!modal) return;
+
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+        container.classList.remove('scale-100');
+        container.classList.add('scale-95');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeProjectModal();
+        }
+    });
+    </script>
+</body>
+</html>

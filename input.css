@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crimson: #DD0E45;
+  --color-obsidian: #000000;
+  --font-mondwest: 'PP Mondwest', Georgia, serif;
+  --font-montreal: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}

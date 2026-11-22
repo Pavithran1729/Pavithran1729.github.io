@@ -50,6 +50,8 @@
         :root {
             --crimson: #DD0E45;
             --obsidian: #000000;
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-press: cubic-bezier(0.2, 0, 0, 1);
         }
 
         body {
@@ -200,6 +202,172 @@
             background-color: #000000;
         }
 
+        /* Universal Magnetic Spring Base */
+        .magnetic-btn {
+            --mag-x: 0px;
+            --mag-y: 0px;
+            transform: translate3d(var(--mag-x), var(--mag-y), 0);
+            will-change: transform;
+        }
+
+        /* Hero Primary Action Button (Dharmesh Pill with Shimmer & Spring Arrow) */
+        .hero-cta-btn {
+            position: relative;
+            overflow: hidden;
+            padding: 14px 34px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            will-change: transform;
+        }
+        .hero-cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.75s ease;
+            pointer-events: none;
+        }
+        .hero-cta-btn:hover::before {
+            left: 140%;
+        }
+        .hero-cta-btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.32);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.12);
+            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 2px), 0);
+        }
+        .hero-cta-btn:active {
+            transform: translate3d(var(--mag-x), var(--mag-y), 0) scale(0.96) !important;
+            transition-duration: 0.1s !important;
+        }
+        .hero-cta-btn .arrow-icon {
+            transition: transform 0.3s var(--ease-spring);
+        }
+        .hero-cta-btn:hover .arrow-icon {
+            transform: translate(2.5px, -2.5px);
+        }
+
+        /* Bento Work Card Architecture & Interactive Spotlight */
+        .bento-work-card {
+            position: relative;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s var(--ease-spring);
+            will-change: transform;
+        }
+        .bento-work-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            background: radial-gradient(450px circle at var(--spot-x, -999px) var(--spot-y, -999px), rgba(255, 255, 255, 0.08), transparent 65%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            z-index: 15;
+        }
+        .bento-work-card:hover::after {
+            opacity: 1;
+        }
+        .bento-work-card:active {
+            transform: scale(0.992);
+            transition-duration: 0.12s;
+        }
+
+        /* Expanding Read More Button inside Bento Work Cards */
+        .card-read-more-btn {
+            transition: all 0.35s var(--ease-spring);
+            will-change: transform, width, padding, background;
+        }
+        .card-read-more-btn:hover {
+            background: rgba(255, 255, 255, 0.22) !important;
+            border-color: rgba(255, 255, 255, 0.35) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 16px rgba(255, 255, 255, 0.14) !important;
+        }
+        .card-read-more-btn:active {
+            transform: scale(0.92) !important;
+            transition-duration: 0.1s !important;
+        }
+        .card-read-more-btn svg {
+            transition: transform 0.3s var(--ease-spring);
+        }
+        .bento-work-card:hover .card-read-more-btn svg {
+            transform: translateX(2px);
+        }
+        .card-read-more-btn:hover svg {
+            transform: translateX(4px) !important;
+        }
+
+        /* Archive Drawer Trigger Pill Button */
+        .archive-pill-btn {
+            height: 56px;
+            padding: 0 32px;
+            border-radius: 9999px;
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, color 0.25s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+        }
+        .archive-pill-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.75s ease;
+            pointer-events: none;
+        }
+        .archive-pill-btn:hover::before {
+            left: 140%;
+        }
+        .archive-pill-btn:hover {
+            background: #1c1c20;
+            border-color: rgba(255, 255, 255, 0.28);
+            color: #ffffff;
+            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 2px), 0);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 18px rgba(255, 255, 255, 0.08);
+        }
+        .archive-pill-btn:active {
+            transform: translate3d(var(--mag-x), var(--mag-y), 0) scale(0.96) !important;
+            transition-duration: 0.1s !important;
+        }
+        .archive-pill-btn .archive-arrow {
+            transition: transform 0.3s var(--ease-spring), color 0.25s ease;
+        }
+        .archive-pill-btn:hover .archive-arrow {
+            transform: translate(2.5px, -2.5px);
+            color: #ffffff;
+        }
+
         /* Bento Card Architecture: STRICT MONOCHROME (0 RED) */
         .bento-card {
             background: #0d0d10;
@@ -338,24 +506,32 @@
             justify-content: center;
             gap: 12px;
             aspect-ratio: 1;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             cursor: default;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
         }
         .tech-squircle-card:hover {
-            transform: translateY(-4px) scale(1.04);
-            border-color: rgba(255, 255, 255, 0.22);
-            background: #13131a;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+            transform: translateY(-6px) scale(1.04);
+            border-color: rgba(255, 255, 255, 0.24);
+            background: #13131b;
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 255, 255, 0.06);
+        }
+        .tech-squircle-card:active {
+            transform: translateY(-2px) scale(0.98);
+            transition-duration: 0.1s;
         }
         .tech-squircle-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.35s var(--ease-spring), filter 0.3s ease;
         }
         .tech-squircle-card:hover .tech-squircle-icon {
-            transform: scale(1.1);
+            transform: translateY(-4px) scale(1.12);
+            filter: drop-shadow(0 8px 16px rgba(255, 255, 255, 0.18));
         }
         .tech-squircle-label {
             font-size: 13px;
@@ -374,22 +550,34 @@
             height: 56px;
             border-radius: 9999px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
             cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            will-change: transform;
         }
-
         .social-circle-btn:hover {
-            background: rgba(255, 255, 255, 0.22);
-            border-color: rgba(255, 255, 255, 0.28);
-            transform: scale(1.08);
+            background: rgba(255, 255, 255, 0.24);
+            border-color: rgba(255, 255, 255, 0.32);
+            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 3px), 0) scale(1.08);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.65), 0 0 16px rgba(255, 255, 255, 0.16);
+        }
+        .social-circle-btn:active {
+            transform: translate3d(var(--mag-x), var(--mag-y), 0) scale(0.92) !important;
+            transition-duration: 0.1s !important;
+        }
+        .social-circle-btn svg {
+            transition: transform 0.3s var(--ease-spring);
+        }
+        .social-circle-btn:hover svg {
+            transform: scale(1.12) rotate(-3deg);
         }
 
         /* Dharmesh Email Me Pill Button (1:1 Exact 240px x 56px) */
@@ -399,25 +587,90 @@
             max-width: 100%;
             border-radius: 9999px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 15px;
             font-weight: 500;
             color: #ffffff;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
             text-decoration: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            will-change: transform;
         }
-
+        .email-pill-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.75s ease;
+            pointer-events: none;
+        }
+        .email-pill-btn:hover::before {
+            left: 140%;
+        }
         .email-pill-btn:hover {
             background: rgba(255, 255, 255, 0.22);
-            border-color: rgba(255, 255, 255, 0.28);
-            transform: scale(1.04);
+            border-color: rgba(255, 255, 255, 0.32);
+            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 2px), 0) scale(1.02);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 255, 255, 0.14);
+        }
+        .email-pill-btn:active {
+            transform: translate3d(var(--mag-x), var(--mag-y), 0) scale(0.96) !important;
+            transition-duration: 0.1s !important;
+        }
+
+        /* Modal Close Button */
+        .modal-close-btn {
+            transition: transform 0.3s var(--ease-spring), background-color 0.25s ease, color 0.25s ease;
+            will-change: transform;
+        }
+        .modal-close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+        }
+        .modal-close-btn:active {
+            transform: rotate(90deg) scale(0.92) !important;
+            transition-duration: 0.1s !important;
+        }
+
+        /* Modal Action Buttons */
+        .modal-btn-primary {
+            transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease, background-color 0.2s ease;
+            will-change: transform;
+        }
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 255, 255, 0.28), 0 0 15px rgba(255, 255, 255, 0.15);
+        }
+        .modal-btn-primary:active {
+            transform: translateY(0) scale(0.95) !important;
+            transition-duration: 0.1s !important;
+        }
+        .modal-btn-secondary {
+            transition: transform 0.3s var(--ease-spring), background-color 0.2s ease, border-color 0.2s ease;
+            will-change: transform;
+        }
+        .modal-btn-secondary:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.14) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+        .modal-btn-secondary:active {
+            transform: translateY(0) scale(0.95) !important;
+            transition-duration: 0.1s !important;
         }
         /* Smooth Scroll Behavior */
         html {
@@ -438,6 +691,10 @@
         .nav-link:hover {
             color: rgba(255, 255, 255, 0.88);
         }
+        .nav-link:active {
+            transform: scale(0.95);
+            transition-duration: 0.1s;
+        }
         .nav-link.active {
             color: #ffffff !important;
             font-weight: 600;
@@ -450,6 +707,10 @@
         #nav-logo:hover {
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
             transform: scale(1.08);
+        }
+        #nav-logo:active {
+            transform: scale(0.92) !important;
+            transition-duration: 0.1s;
         }
         #nav-logo.active {
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.85));
@@ -484,7 +745,7 @@
     <header id="floating-navbar">
         <nav class="flex items-center justify-between w-[480px] max-w-[calc(100vw-32px)] h-14 px-6 rounded-full bg-black/50 backdrop-blur-[40px] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
             <!-- White Squircle Logo Badge (Exact Dharmesh "D" Style -> "P" Monogram) -->
-            <a href="#hero" class="w-7 h-7 rounded-lg bg-white text-black font-mondwest font-bold text-base flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0" aria-label="Pavithran - Home" id="nav-logo">
+            <a href="#hero" class="w-7 h-7 rounded-lg bg-white text-black font-mondwest font-bold text-base flex items-center justify-center hover:scale-105 active:scale-95 transition-all flex-shrink-0 magnetic-btn" aria-label="Pavithran - Home" id="nav-logo">
                 P
             </a>
             
@@ -499,9 +760,9 @@
             </div>
 
             <!-- Resume Link with Arrow (Exact Dharmesh Navbar Style) -->
-            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-[15px] font-montreal text-white/65 hover:text-white transition-colors ml-1">
+            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-[15px] font-montreal text-white/65 hover:text-white transition-colors ml-1 group/navresume">
                 <span>Resume</span>
-                <span class="text-xs">↗</span>
+                <span class="text-xs transition-transform duration-300 group-hover/navresume:translate-x-0.5 group-hover/navresume:-translate-y-0.5">↗</span>
             </a>
         </nav>
     </header>
@@ -543,8 +804,9 @@
                 A Software Engineer & ML Systems Specialist. Currently building autonomous agent evaluation sandboxes at Handshake AI and zero-downtime distributed platforms.
             </p>
             <div class="flex items-center justify-center gap-4">
-                <a href="#contact" class="px-8 py-3.5 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 hover:border-white/25 text-white text-sm font-medium transition-all duration-300 shadow-xl inline-flex items-center gap-2 backdrop-blur-md">
+                <a href="#contact" class="hero-cta-btn magnetic-btn">
                     <span>Get in touch</span>
+                    <span class="arrow-icon text-xs text-white/70">↗</span>
                 </a>
             </div>
         </div>
@@ -566,7 +828,7 @@
         <div class="flex flex-col gap-6">
 
             <!-- Card 1: Automated Exam Infrastructure (QPGen) - Hero Full Width (1000px, 440px Height) -->
-            <div onclick="openProjectModal('qpgen')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[440px] h-[440px]">
+            <div onclick="openProjectModal('qpgen')" class="bento-work-card group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[440px] h-[440px]">
                 <!-- Atmospheric Hover Gradient (Wine / Crimson Red) -->
                 <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(64deg, rgb(30, 11, 15) 0%, rgb(67, 15, 27) 100%);"></div>
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center z-10 h-full">
@@ -581,7 +843,7 @@
                             </p>
                         </div>
                         <div class="pt-2">
-                            <button type="button" onclick="event.stopPropagation(); openProjectModal('qpgen')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View QPGen Details">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('qpgen')" class="card-read-more-btn h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View QPGen Details">
                                 <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
                                 <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -625,7 +887,7 @@
                 <div class="flex flex-col gap-6">
 
                     <!-- Card 2: Tokenized Queue Management System (EZQ) - Half Width (720px Height) -->
-                    <div onclick="openProjectModal('ezq')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[720px] h-[720px]">
+                    <div onclick="openProjectModal('ezq')" class="bento-work-card group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[720px] h-[720px]">
                         <!-- Atmospheric Hover Gradient (Deep Sapphire Navy Blue) -->
                         <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(11, 16, 30) 0%, rgb(15, 29, 67) 100%);"></div>
                         <div class="space-y-3 z-10">
@@ -640,7 +902,7 @@
                         
                         <!-- Dharmesh Signature Bottom-Left Circular Button -->
                         <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
-                            <button type="button" onclick="event.stopPropagation(); openProjectModal('ezq')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View EZQ Details">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('ezq')" class="card-read-more-btn h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View EZQ Details">
                                 <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
                                 <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -676,7 +938,7 @@
                     </div>
 
                     <!-- Card 3: Mudra Mastery: AI Gesture Recognition - Half Width (488px Height - Matches Dharmesh Sushi Card Exactly) -->
-                    <div onclick="openProjectModal('mudra')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[488px] h-[488px]">
+                    <div onclick="openProjectModal('mudra')" class="bento-work-card group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[488px] h-[488px]">
                         <!-- Atmospheric Hover Gradient (Warm Amber / Ember) -->
                         <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(48deg, rgb(30, 16, 11) 0%, rgb(67, 29, 15) 100%);"></div>
                         <div class="space-y-3 z-10">
@@ -691,7 +953,7 @@
                         
                         <!-- Dharmesh Signature Bottom-Left Circular Button -->
                         <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
-                            <button type="button" onclick="event.stopPropagation(); openProjectModal('mudra')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Mudra Details">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('mudra')" class="card-read-more-btn h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Mudra Details">
                                 <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
                                 <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -732,7 +994,7 @@
                 <div class="flex flex-col gap-6">
 
                     <!-- Card 4: Terminal-Bench (Autonomous Agent Sandbox) - Half Width (604px Height - Matches Dharmesh Menu Card Exactly) -->
-                    <div onclick="openProjectModal('terminal')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
+                    <div onclick="openProjectModal('terminal')" class="bento-work-card group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
                         <!-- Atmospheric Hover Gradient (Royal Violet / Deep Purple) -->
                         <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(17, 11, 30) 0%, rgb(32, 15, 67) 100%);"></div>
                         <div class="space-y-3 z-10">
@@ -747,7 +1009,7 @@
                         
                         <!-- Dharmesh Signature Bottom-Left Circular Button -->
                         <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
-                            <button type="button" onclick="event.stopPropagation(); openProjectModal('terminal')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Terminal-Bench Details">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('terminal')" class="card-read-more-btn h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Terminal-Bench Details">
                                 <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
                                 <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -783,7 +1045,7 @@
                     </div>
 
                     <!-- Card 5: Result Portal (University Examination Analytics) - Half Width (604px Height - Matches Dharmesh Hyperpure Card Exactly) -->
-                    <div onclick="openProjectModal('result_portal')" class="group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
+                    <div onclick="openProjectModal('result_portal')" class="bento-work-card group relative rounded-[40px] bg-[#141414] border border-white/[0.04] hover:border-white/15 transition-all duration-500 overflow-hidden w-full p-8 sm:p-10 cursor-pointer shadow-2xl flex flex-col justify-between min-h-[604px] h-[604px]">
                         <!-- Atmospheric Hover Gradient (Deep Emerald / Forest Green) -->
                         <div class="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out rounded-[40px]" style="background: linear-gradient(32deg, rgb(11, 30, 22) 0%, rgb(18, 64, 45) 100%);"></div>
                         <div class="space-y-3 z-10">
@@ -798,7 +1060,7 @@
                         
                         <!-- Dharmesh Signature Bottom-Left Circular Button -->
                         <div class="absolute bottom-8 left-8 sm:bottom-10 sm:left-10 z-20">
-                            <button type="button" onclick="event.stopPropagation(); openProjectModal('result_portal')" class="h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Result Portal Details">
+                            <button type="button" onclick="event.stopPropagation(); openProjectModal('result_portal')" class="card-read-more-btn h-12 w-12 group-hover:w-auto group-hover:px-5 rounded-full bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/10 group-hover:border-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 ease-out shadow-lg" aria-label="View Result Portal Details">
                                 <span class="max-w-0 opacity-0 overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100 group-hover:mr-2">Read more</span>
                                 <svg class="w-4 h-4 text-white shrink-0 transform transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -841,9 +1103,9 @@
 
         <!-- Archive Drawer Trigger Matching Dharmesh (200px x 56px Pill Button) -->
         <div class="mt-14 flex justify-center">
-            <button onclick="openArchiveDrawer()" class="h-14 px-8 rounded-full bg-[#141414] hover:bg-[#1a1a1c] border border-white/10 hover:border-white/25 flex items-center gap-2.5 text-white/80 hover:text-white transition-all duration-300 text-sm font-medium shadow-xl group">
+            <button onclick="openArchiveDrawer()" class="archive-pill-btn magnetic-btn group" aria-label="Open Project Archive">
                 <span>All other projects</span>
-                <span class="text-white/60 group-hover:text-white transition-colors transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                <span class="archive-arrow text-white/60 text-xs">↗</span>
             </button>
         </div>
     </section>
@@ -1030,7 +1292,7 @@
                             <h3 class="font-mondwest text-2xl sm:text-[32px] font-normal leading-snug tracking-tight text-white">
                                 Work experience
                             </h3>
-                            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/50 hover:text-white transition-colors flex items-center gap-1 group/res">
+                            <a href="Pavithran_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-white/50 hover:text-white active:scale-95 transition-all flex items-center gap-1 group/res">
                                 <span>Resume</span>
                                 <span class="group-hover/res:translate-x-0.5 group-hover/res:-translate-y-0.5 transition-transform">↗</span>
                             </a>
@@ -1199,27 +1461,27 @@
             <!-- 5 Buttons in a Row (Dharmesh 1:1) -->
             <div class="flex items-center justify-center gap-4 mt-12">
                 <!-- Twitter / X -->
-                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Twitter">
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Twitter">
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M24 4.34c-.902.392-1.856.65-2.832.769a4.956 4.956 0 0 0 2.172-2.724 9.852 9.852 0 0 1-3.132 1.2 4.92 4.92 0 0 0-8.4 4.488 13.968 13.968 0 0 1-10.14-5.148 4.992 4.992 0 0 0-.66 2.484A4.908 4.908 0 0 0 3.192 9.5 4.86 4.86 0 0 1 .96 8.889v.06a4.92 4.92 0 0 0 3.96 4.8c-.428.13-.873.199-1.32.204a5.877 5.877 0 0 1-.924-.084 4.932 4.932 0 0 0 4.596 3.408A9.864 9.864 0 0 1 0 19.317a13.884 13.884 0 0 0 7.548 2.22A13.908 13.908 0 0 0 21.6 7.52v-.636A10.116 10.116 0 0 0 24 4.34Z" fill="#fff"/></svg>
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Instagram">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Instagram">
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M18.408 4.152a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Zm5.52 2.904a9.107 9.107 0 0 0-.552-2.916 5.927 5.927 0 0 0-1.392-2.124A5.64 5.64 0 0 0 19.86.636a8.76 8.76 0 0 0-2.916-.564C15.672 0 15.264 0 12 0 8.736 0 8.328 0 7.056.072A8.76 8.76 0 0 0 4.14.636a5.736 5.736 0 0 0-2.124 1.38A5.64 5.64 0 0 0 .636 4.14a8.76 8.76 0 0 0-.564 2.916C0 8.328 0 8.736 0 12c0 3.264 0 3.672.072 4.944a8.76 8.76 0 0 0 .564 2.916 5.64 5.64 0 0 0 1.38 2.124 5.737 5.737 0 0 0 2.124 1.38 8.761 8.761 0 0 0 2.916.564C8.328 24 8.736 24 12 24c3.264 0 3.672 0 4.944-.072a8.761 8.761 0 0 0 2.916-.564 5.64 5.64 0 0 0 2.124-1.38 5.82 5.82 0 0 0 1.392-2.124 9.1 9.1 0 0 0 .552-2.916c0-1.272.072-1.68.072-4.944 0-3.264 0-3.672-.072-4.944Zm-2.16 9.744a6.731 6.731 0 0 1-.408 2.232c-.192.522-.5.994-.9 1.38-.39.397-.86.704-1.38.9-.716.261-1.47.4-2.232.408-1.2.06-1.644.072-4.8.072-3.156 0-3.6 0-4.8-.072a6.877 6.877 0 0 1-2.328-.36 3.925 3.925 0 0 1-1.32-.9 3.6 3.6 0 0 1-.888-1.38 6.648 6.648 0 0 1-.48-2.28c0-1.2-.072-1.644-.072-4.8 0-3.156 0-3.6.072-4.8a6.65 6.65 0 0 1 .42-2.28A3.6 3.6 0 0 1 3.6 3.6a3.77 3.77 0 0 1 1.32-.96 6.876 6.876 0 0 1 2.28-.408c1.2 0 1.644-.072 4.8-.072 3.156 0 3.6 0 4.8.072a6.733 6.733 0 0 1 2.232.408 3.672 3.672 0 0 1 1.428.96c.393.369.7.82.9 1.32.267.73.405 1.502.408 2.28.06 1.2.072 1.644.072 4.8 0 3.156-.012 3.6-.072 4.8ZM12 5.844A6.156 6.156 0 1 0 18.168 12 6.145 6.145 0 0 0 12 5.844Zm0 10.152a3.997 3.997 0 1 1 0-7.994 3.997 3.997 0 0 1 0 7.994Z" fill="#fff"/></svg>
                 </a>
 
                 <!-- Center Email Me Pill Button -->
-                <a href="mailto:pavithranraja1729@gmail.com" class="email-pill-btn">
+                <a href="mailto:pavithranraja1729@gmail.com" class="email-pill-btn magnetic-btn">
                     <span>Email me</span>
                 </a>
 
                 <!-- Dribbble / Portfolio -->
-                <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Projects">
+                <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Projects">
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm0 2.4a9.528 9.528 0 0 1 6.612 2.664 29.916 29.916 0 0 1-5.796 2.616 34.885 34.885 0 0 0-3.444-4.908A9.528 9.528 0 0 1 12 2.4ZM7.068 3.78A32.592 32.592 0 0 1 10.44 8.4a30.133 30.133 0 0 1-7.2.888h-.432a9.6 9.6 0 0 1 4.26-5.508ZM4.8 18.372A9.48 9.48 0 0 1 2.4 12v-.348h.816a32.002 32.002 0 0 0 8.4-1.2c.384.732.744 1.488 1.092 2.268a17.16 17.16 0 0 0-5.148 2.892l-.36.288a25.202 25.202 0 0 0-2.4 2.472ZM12 21.6a9.504 9.504 0 0 1-5.364-1.644c.584-.67 1.21-1.303 1.872-1.896l.384-.324a15.157 15.157 0 0 1 4.8-2.724 38.396 38.396 0 0 1 1.68 6A9.697 9.697 0 0 1 12 21.6Zm5.556-1.788a41.837 41.837 0 0 0-1.536-5.352h.408a.3.3 0 0 1 .144 0h.828c1.263.004 2.516.219 3.708.636a9.528 9.528 0 0 1-3.552 4.716ZM17.4 12h-.744a1.87 1.87 0 0 0-.468 0c-.326.02-.65.06-.972.12h-.12a60.28 60.28 0 0 0-1.104-2.4 31.882 31.882 0 0 0 6.156-2.88A9.6 9.6 0 0 1 21.6 12v.612A13.777 13.777 0 0 0 17.4 12Z" fill="#fff"/></svg>
                 </a>
 
                 <!-- LinkedIn -->
-                <a href="https://www.linkedin.com/in/r-pavithran" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/r-pavithran" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="LinkedIn">
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M22.092 0H1.764A1.74 1.74 0 0 0 0 1.716v20.568A1.74 1.74 0 0 0 1.764 24h20.328a1.74 1.74 0 0 0 1.764-1.716V1.716A1.742 1.742 0 0 0 22.092 0ZM7.236 20.088h-3.6v-10.8h3.6v10.8Zm-1.8-12.312a1.872 1.872 0 0 1 0-3.744 1.884 1.884 0 1 1 0 3.744ZM20.22 20.088h-3.6v-5.796c0-1.452-.516-2.4-1.824-2.4a1.98 1.98 0 0 0-1.848 1.308 2.4 2.4 0 0 0-.12.876v6h-3.6v-10.8h3.6V10.8A3.601 3.601 0 0 1 16.08 9c2.4 0 4.14 1.548 4.14 4.872v6.216Z" fill="#fff"/></svg>
                 </a>
             </div>
@@ -1237,7 +1499,7 @@
                         <h3 class="font-mondwest text-3xl text-white">Engineering Archive</h3>
                         <p class="text-xs text-white/50">Complete 18-project engineering archive of production software & machine learning systems</p>
                     </div>
-                    <button onclick="closeArchiveDrawer()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Close Drawer">✕</button>
+                    <button onclick="closeArchiveDrawer()" class="modal-close-btn w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all" aria-label="Close Drawer">✕</button>
                 </div>
                 <div class="space-y-6">
 
@@ -1454,7 +1716,7 @@
                 </div>
             </div>
             <div class="pt-8 mt-8 border-t border-white/[0.08] text-center">
-                <button onclick="closeArchiveDrawer()" class="px-6 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] text-xs font-medium text-white transition-colors">Close Archive</button>
+                <button onclick="closeArchiveDrawer()" class="modal-btn-secondary px-6 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] text-xs font-medium text-white transition-all">Close Archive</button>
             </div>
         </div>
     </div>
@@ -1761,16 +2023,89 @@
         startAutoPlay();
     }
 
+    // 4. Ultra-smooth Magnetic Micro-Physics for Interactive Elements
+    function initMagneticButtons() {
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+
+        const targets = document.querySelectorAll('.magnetic-btn');
+        targets.forEach(el => {
+            let rafId = null;
+            let targetX = 0;
+            let targetY = 0;
+            let currentX = 0;
+            let currentY = 0;
+            let isHovering = false;
+
+            function updateSpring() {
+                currentX += (targetX - currentX) * 0.24;
+                currentY += (targetY - currentY) * 0.24;
+
+                el.style.setProperty('--mag-x', `${currentX.toFixed(2)}px`);
+                el.style.setProperty('--mag-y', `${currentY.toFixed(2)}px`);
+
+                if (isHovering || Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+                    rafId = requestAnimationFrame(updateSpring);
+                } else {
+                    el.style.setProperty('--mag-x', '0px');
+                    el.style.setProperty('--mag-y', '0px');
+                    rafId = null;
+                }
+            }
+
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const pullFactor = 0.22;
+                const maxPull = 7;
+                const dx = (e.clientX - centerX) * pullFactor;
+                const dy = (e.clientY - centerY) * pullFactor;
+                targetX = Math.max(-maxPull, Math.min(maxPull, dx));
+                targetY = Math.max(-maxPull, Math.min(maxPull, dy));
+                isHovering = true;
+                if (!rafId) rafId = requestAnimationFrame(updateSpring);
+            });
+
+            el.addEventListener('mouseleave', () => {
+                isHovering = false;
+                targetX = 0;
+                targetY = 0;
+                if (!rafId) rafId = requestAnimationFrame(updateSpring);
+            });
+        });
+    }
+
+    // 5. Ambient Cursor Spotlight for Bento Work Cards
+    function initCardSpotlights() {
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+
+        const cards = document.querySelectorAll('.bento-work-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--spot-x', `${x}px`);
+                card.style.setProperty('--spot-y', `${y}px`);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.setProperty('--spot-x', '-999px');
+                card.style.setProperty('--spot-y', '-999px');
+            });
+        });
+    }
+
     function launchShaders() {
         initAtmosphericWave('hero-canvas-container', false);
         initAtmosphericWave('footer-canvas-container', true);
         initFootballCarousel();
+        initMagneticButtons();
+        initCardSpotlights();
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', launchShaders);
     } else {
         launchShaders();
-        
     }
     </script>
 
@@ -1789,7 +2124,7 @@
                 <div class="flex items-center gap-3">
                     <span id="modal-category" class="text-xs font-mono uppercase tracking-widest text-neutral-400"></span>
                 </div>
-                <button onclick="closeProjectModal()" class="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all text-sm font-mono" aria-label="Close modal">
+                <button onclick="closeProjectModal()" class="modal-close-btn w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all text-sm font-mono" aria-label="Close modal">
                     ✕
                 </button>
             </div>
@@ -1827,11 +2162,11 @@
 
                 <!-- Action Links -->
                 <div class="pt-4 border-t border-white/[0.08] flex flex-wrap items-center gap-4">
-                    <a id="modal-link-demo" href="#" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs font-medium tracking-wide transition-all shadow-lg flex items-center gap-1.5">
+                    <a id="modal-link-demo" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-primary px-5 py-2.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs font-medium tracking-wide transition-all shadow-lg flex items-center gap-1.5">
                         <span>Launch Project</span>
                         <span>↗</span>
                     </a>
-                    <a id="modal-link-code" href="#" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-white text-xs font-medium tracking-wide transition-all flex items-center gap-1.5">
+                    <a id="modal-link-code" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-secondary px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-white text-xs font-medium tracking-wide transition-all flex items-center gap-1.5">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                         <span>Source Code</span>
                     </a>

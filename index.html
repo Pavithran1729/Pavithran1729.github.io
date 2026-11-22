@@ -192,6 +192,27 @@
             filter: blur(24px);
         }
 
+        /* Dharmesh Exact 800px / 100px Atmospheric Wine Glow Wrapper */
+        .footer-ambient-glow-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 800px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .webgl-canvas-container.footer-glow-canvas {
+            filter: blur(100px);
+            opacity: 0.45;
+            position: absolute;
+            inset: -120px;
+            width: calc(100% + 240px);
+            height: calc(100% + 240px);
+        }
+
         
         /* Exact Dharmesh Wine Ambient Glow Background */
         #hero {
@@ -544,15 +565,15 @@
             color: #ffffff;
         }
 
-        /* Dharmesh Bottom Sun Dome Social Row (1:1 Exact Dharmesh 56px/240px System) */
+        /* Dharmesh Bottom Sun Dome Social Row (Exact 80px System, 24px Gap) */
         .social-circle-btn {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             border-radius: 9999px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -563,10 +584,16 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             will-change: transform;
         }
+        @media (min-width: 768px) {
+            .social-circle-btn {
+                width: 80px;
+                height: 80px;
+            }
+        }
         .social-circle-btn:hover {
-            background: rgba(255, 255, 255, 0.24);
-            border-color: rgba(255, 255, 255, 0.32);
-            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 3px), 0) scale(1.08);
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translate3d(var(--mag-x), calc(var(--mag-y) - 3px), 0) scale(1.06);
             box-shadow: 0 16px 35px rgba(0, 0, 0, 0.65), 0 0 16px rgba(255, 255, 255, 0.16);
         }
         .social-circle-btn:active {
@@ -574,26 +601,26 @@
             transition-duration: 0.1s !important;
         }
         .social-circle-btn svg {
-            transition: transform 0.3s var(--ease-spring);
+            transition: transform 0.3s var(--ease-spring), opacity 0.25s ease;
         }
         .social-circle-btn:hover svg {
             transform: scale(1.12) rotate(-3deg);
         }
 
-        /* Dharmesh Email Me Pill Button (1:1 Exact 240px x 56px) */
+        /* Dharmesh Email Me Pill Button (Exact 360px x 80px System with Interactive Text Reveal) */
         .email-pill-btn {
-            height: 56px;
-            width: 240px;
+            height: 64px;
+            width: 280px;
             max-width: 100%;
             border-radius: 9999px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             color: #ffffff;
             transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -604,6 +631,13 @@
             overflow: hidden;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
             will-change: transform;
+        }
+        @media (min-width: 768px) {
+            .email-pill-btn {
+                height: 80px;
+                width: 360px;
+                font-size: 17px;
+            }
         }
         .email-pill-btn::before {
             content: '';
@@ -622,7 +656,7 @@
         }
         .email-pill-btn:hover {
             background: rgba(255, 255, 255, 0.22);
-            border-color: rgba(255, 255, 255, 0.32);
+            border-color: rgba(255, 255, 255, 0.28);
             transform: translate3d(var(--mag-x), calc(var(--mag-y) - 2px), 0) scale(1.02);
             box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 255, 255, 0.14);
         }
@@ -1426,7 +1460,7 @@
         </div>
     </section>
 
-<footer id="contact" class="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-black">
+<footer id="contact" class="relative min-h-[640px] pt-24 pb-48 sm:pt-28 sm:pb-52 md:pt-32 md:pb-56 flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-black">
         
         <!-- Symmetrical CAD Vector Lines -->
         <div class="pinstripe-stack">
@@ -1443,13 +1477,15 @@
         <!-- Symmetrical Bottom Crimson Sun Dome (Clean, No Copyright Text) -->
         <div class="sun-dome-bottom"></div>
 
-        <!-- Three.js Ambient Fluid Wave Glow (Subtle, Organic, Zero Ribbons) -->
-        <div id="footer-canvas-container" class="webgl-canvas-container"></div>
+        <!-- Three.js Ambient Fluid Wave Glow (Exact Dharmesh 800px Atmospheric Wine Wrapper with 100px Blur) -->
+        <div class="footer-ambient-glow-wrapper">
+            <div id="footer-canvas-container" class="webgl-canvas-container footer-glow-canvas"></div>
+        </div>
         
         <div class="grain-overlay"></div>
 
         <!-- Footer Content Stack (1:1 Exact Dharmesh Alignment & Sizing) -->
-        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center my-auto translate-y-3 sm:translate-y-4 px-4">
+        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4">
             
             <h2 class="font-mondwest text-5xl sm:text-6xl md:text-[64px] font-normal leading-tight md:leading-[64px] tracking-tight text-white text-center m-0">
                 Your turn. Say hello
@@ -1458,31 +1494,32 @@
                 Have an opportunity, wanna collaborate on something cool or just say hello!
             </p>
 
-            <!-- 5 Buttons in a Row (Dharmesh 1:1) -->
-            <div class="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 mt-10 sm:mt-12">
+            <!-- 5 Buttons in a Row (Dharmesh 1:1, 80px Circles, 360px Pill, 24px Gap) -->
+            <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-5 md:gap-6 mt-10 sm:mt-12">
                 <!-- Twitter / X -->
                 <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Twitter">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M24 4.34c-.902.392-1.856.65-2.832.769a4.956 4.956 0 0 0 2.172-2.724 9.852 9.852 0 0 1-3.132 1.2 4.92 4.92 0 0 0-8.4 4.488 13.968 13.968 0 0 1-10.14-5.148 4.992 4.992 0 0 0-.66 2.484A4.908 4.908 0 0 0 3.192 9.5 4.86 4.86 0 0 1 .96 8.889v.06a4.92 4.92 0 0 0 3.96 4.8c-.428.13-.873.199-1.32.204a5.877 5.877 0 0 1-.924-.084 4.932 4.932 0 0 0 4.596 3.408A9.864 9.864 0 0 1 0 19.317a13.884 13.884 0 0 0 7.548 2.22A13.908 13.908 0 0 0 21.6 7.52v-.636A10.116 10.116 0 0 0 24 4.34Z" fill="#fff"/></svg>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="opacity-80 transition-opacity hover:opacity-100"><path d="M24 4.34c-.902.392-1.856.65-2.832.769a4.956 4.956 0 0 0 2.172-2.724 9.852 9.852 0 0 1-3.132 1.2 4.92 4.92 0 0 0-8.4 4.488 13.968 13.968 0 0 1-10.14-5.148 4.992 4.992 0 0 0-.66 2.484A4.908 4.908 0 0 0 3.192 9.5 4.86 4.86 0 0 1 .96 8.889v.06a4.92 4.92 0 0 0 3.96 4.8c-.428.13-.873.199-1.32.204a5.877 5.877 0 0 1-.924-.084 4.932 4.932 0 0 0 4.596 3.408A9.864 9.864 0 0 1 0 19.317a13.884 13.884 0 0 0 7.548 2.22A13.908 13.908 0 0 0 21.6 7.52v-.636A10.116 10.116 0 0 0 24 4.34Z" fill="#fff"/></svg>
                 </a>
 
                 <!-- Instagram -->
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Instagram">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M18.408 4.152a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Zm5.52 2.904a9.107 9.107 0 0 0-.552-2.916 5.927 5.927 0 0 0-1.392-2.124A5.64 5.64 0 0 0 19.86.636a8.76 8.76 0 0 0-2.916-.564C15.672 0 15.264 0 12 0 8.736 0 8.328 0 7.056.072A8.76 8.76 0 0 0 4.14.636a5.736 5.736 0 0 0-2.124 1.38A5.64 5.64 0 0 0 .636 4.14a8.76 8.76 0 0 0-.564 2.916C0 8.328 0 8.736 0 12c0 3.264 0 3.672.072 4.944a8.76 8.76 0 0 0 .564 2.916 5.64 5.64 0 0 0 1.38 2.124 5.737 5.737 0 0 0 2.124 1.38 8.761 8.761 0 0 0 2.916.564C8.328 24 8.736 24 12 24c3.264 0 3.672 0 4.944-.072a8.761 8.761 0 0 0 2.916-.564 5.64 5.64 0 0 0 2.124-1.38 5.82 5.82 0 0 0 1.392-2.124 9.1 9.1 0 0 0 .552-2.916c0-1.272.072-1.68.072-4.944 0-3.264 0-3.672-.072-4.944Zm-2.16 9.744a6.731 6.731 0 0 1-.408 2.232c-.192.522-.5.994-.9 1.38-.39.397-.86.704-1.38.9-.716.261-1.47.4-2.232.408-1.2.06-1.644.072-4.8.072-3.156 0-3.6 0-4.8-.072a6.877 6.877 0 0 1-2.328-.36 3.925 3.925 0 0 1-1.32-.9 3.6 3.6 0 0 1-.888-1.38 6.648 6.648 0 0 1-.48-2.28c0-1.2-.072-1.644-.072-4.8 0-3.156 0-3.6.072-4.8a6.65 6.65 0 0 1 .42-2.28A3.6 3.6 0 0 1 3.6 3.6a3.77 3.77 0 0 1 1.32-.96 6.876 6.876 0 0 1 2.28-.408c1.2 0 1.644-.072 4.8-.072 3.156 0 3.6 0 4.8.072a6.733 6.733 0 0 1 2.232.408 3.672 3.672 0 0 1 1.428.96c.393.369.7.82.9 1.32.267.73.405 1.502.408 2.28.06 1.2.072 1.644.072 4.8 0 3.156-.012 3.6-.072 4.8ZM12 5.844A6.156 6.156 0 1 0 18.168 12 6.145 6.145 0 0 0 12 5.844Zm0 10.152a3.997 3.997 0 1 1 0-7.994 3.997 3.997 0 0 1 0 7.994Z" fill="#fff"/></svg>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="opacity-80 transition-opacity hover:opacity-100"><path d="M18.408 4.152a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Zm5.52 2.904a9.107 9.107 0 0 0-.552-2.916 5.927 5.927 0 0 0-1.392-2.124A5.64 5.64 0 0 0 19.86.636a8.76 8.76 0 0 0-2.916-.564C15.672 0 15.264 0 12 0 8.736 0 8.328 0 7.056.072A8.76 8.76 0 0 0 4.14.636a5.736 5.736 0 0 0-2.124 1.38A5.64 5.64 0 0 0 .636 4.14a8.76 8.76 0 0 0-.564 2.916C0 8.328 0 8.736 0 12c0 3.264 0 3.672.072 4.944a8.76 8.76 0 0 0 .564 2.916 5.64 5.64 0 0 0 1.38 2.124 5.737 5.737 0 0 0 2.124 1.38 8.761 8.761 0 0 0 2.916.564C8.328 24 8.736 24 12 24c3.264 0 3.672 0 4.944-.072a8.761 8.761 0 0 0 2.916-.564 5.64 5.64 0 0 0 2.124-1.38 5.82 5.82 0 0 0 1.392-2.124 9.1 9.1 0 0 0 .552-2.916c0-1.272.072-1.68.072-4.944 0-3.264 0-3.672-.072-4.944Zm-2.16 9.744a6.731 6.731 0 0 1-.408 2.232c-.192.522-.5.994-.9 1.38-.39.397-.86.704-1.38.9-.716.261-1.47.4-2.232.408-1.2.06-1.644.072-4.8.072-3.156 0-3.6 0-4.8-.072a6.877 6.877 0 0 1-2.328-.36 3.925 3.925 0 0 1-1.32-.9 3.6 3.6 0 0 1-.888-1.38 6.648 6.648 0 0 1-.48-2.28c0-1.2-.072-1.644-.072-4.8 0-3.156 0-3.6.072-4.8a6.65 6.65 0 0 1 .42-2.28A3.6 3.6 0 0 1 3.6 3.6a3.77 3.77 0 0 1 1.32-.96 6.876 6.876 0 0 1 2.28-.408c1.2 0 1.644-.072 4.8-.072 3.156 0 3.6 0 4.8.072a6.733 6.733 0 0 1 2.232.408 3.672 3.672 0 0 1 1.428.96c.393.369.7.82.9 1.32.267.73.405 1.502.408 2.28.06 1.2.072 1.644.072 4.8 0 3.156-.012 3.6-.072 4.8ZM12 5.844A6.156 6.156 0 1 0 18.168 12 6.145 6.145 0 0 0 12 5.844Zm0 10.152a3.997 3.997 0 1 1 0-7.994 3.997 3.997 0 0 1 0 7.994Z" fill="#fff"/></svg>
                 </a>
 
-                <!-- Center Email Me Pill Button -->
-                <a href="mailto:pavithranraja1729@gmail.com" class="email-pill-btn magnetic-btn">
-                    <span>Email me</span>
+                <!-- Center Email Me Pill Button (Interactive Slide Reveal) -->
+                <a href="mailto:pavithranraja1729@gmail.com" class="email-pill-btn magnetic-btn group/email">
+                    <span class="email-label transition-all duration-300 transform group-hover/email:-translate-y-10 group-hover/email:opacity-0">Email me</span>
+                    <span class="email-reveal absolute transition-all duration-300 transform translate-y-10 opacity-0 group-hover/email:translate-y-0 group-hover/email:opacity-90 font-montreal text-sm sm:text-base tracking-tight text-white/90">pavithranraja1729@gmail.com</span>
                 </a>
 
                 <!-- Dribbble / Portfolio -->
                 <a href="https://github.com/Pavithran1729" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="Projects">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm0 2.4a9.528 9.528 0 0 1 6.612 2.664 29.916 29.916 0 0 1-5.796 2.616 34.885 34.885 0 0 0-3.444-4.908A9.528 9.528 0 0 1 12 2.4ZM7.068 3.78A32.592 32.592 0 0 1 10.44 8.4a30.133 30.133 0 0 1-7.2.888h-.432a9.6 9.6 0 0 1 4.26-5.508ZM4.8 18.372A9.48 9.48 0 0 1 2.4 12v-.348h.816a32.002 32.002 0 0 0 8.4-1.2c.384.732.744 1.488 1.092 2.268a17.16 17.16 0 0 0-5.148 2.892l-.36.288a25.202 25.202 0 0 0-2.4 2.472ZM12 21.6a9.504 9.504 0 0 1-5.364-1.644c.584-.67 1.21-1.303 1.872-1.896l.384-.324a15.157 15.157 0 0 1 4.8-2.724 38.396 38.396 0 0 1 1.68 6A9.697 9.697 0 0 1 12 21.6Zm5.556-1.788a41.837 41.837 0 0 0-1.536-5.352h.408a.3.3 0 0 1 .144 0h.828c1.263.004 2.516.219 3.708.636a9.528 9.528 0 0 1-3.552 4.716ZM17.4 12h-.744a1.87 1.87 0 0 0-.468 0c-.326.02-.65.06-.972.12h-.12a60.28 60.28 0 0 0-1.104-2.4 31.882 31.882 0 0 0 6.156-2.88A9.6 9.6 0 0 1 21.6 12v.612A13.777 13.777 0 0 0 17.4 12Z" fill="#fff"/></svg>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="opacity-80 transition-opacity hover:opacity-100"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm0 2.4a9.528 9.528 0 0 1 6.612 2.664 29.916 29.916 0 0 1-5.796 2.616 34.885 34.885 0 0 0-3.444-4.908A9.528 9.528 0 0 1 12 2.4ZM7.068 3.78A32.592 32.592 0 0 1 10.44 8.4a30.133 30.133 0 0 1-7.2.888h-.432a9.6 9.6 0 0 1 4.26-5.508ZM4.8 18.372A9.48 9.48 0 0 1 2.4 12v-.348h.816a32.002 32.002 0 0 0 8.4-1.2c.384.732.744 1.488 1.092 2.268a17.16 17.16 0 0 0-5.148 2.892l-.36.288a25.202 25.202 0 0 0-2.4 2.472ZM12 21.6a9.504 9.504 0 0 1-5.364-1.644c.584-.67 1.21-1.303 1.872-1.896l.384-.324a15.157 15.157 0 0 1 4.8-2.724 38.396 38.396 0 0 1 1.68 6A9.697 9.697 0 0 1 12 21.6Zm5.556-1.788a41.837 41.837 0 0 0-1.536-5.352h.408a.3.3 0 0 1 .144 0h.828c1.263.004 2.516.219 3.708.636a9.528 9.528 0 0 1-3.552 4.716ZM17.4 12h-.744a1.87 1.87 0 0 0-.468 0c-.326.02-.65.06-.972.12h-.12a60.28 60.28 0 0 0-1.104-2.4 31.882 31.882 0 0 0 6.156-2.88A9.6 9.6 0 0 1 21.6 12v.612A13.777 13.777 0 0 0 17.4 12Z" fill="#fff"/></svg>
                 </a>
 
                 <!-- LinkedIn -->
                 <a href="https://www.linkedin.com/in/r-pavithran" target="_blank" rel="noopener noreferrer" class="social-circle-btn magnetic-btn" aria-label="LinkedIn">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M22.092 0H1.764A1.74 1.74 0 0 0 0 1.716v20.568A1.74 1.74 0 0 0 1.764 24h20.328a1.74 1.74 0 0 0 1.764-1.716V1.716A1.742 1.742 0 0 0 22.092 0ZM7.236 20.088h-3.6v-10.8h3.6v10.8Zm-1.8-12.312a1.872 1.872 0 0 1 0-3.744 1.884 1.884 0 1 1 0 3.744ZM20.22 20.088h-3.6v-5.796c0-1.452-.516-2.4-1.824-2.4a1.98 1.98 0 0 0-1.848 1.308 2.4 2.4 0 0 0-.12.876v6h-3.6v-10.8h3.6V10.8A3.601 3.601 0 0 1 16.08 9c2.4 0 4.14 1.548 4.14 4.872v6.216Z" fill="#fff"/></svg>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="opacity-80 transition-opacity hover:opacity-100"><path d="M22.092 0H1.764A1.74 1.74 0 0 0 0 1.716v20.568A1.74 1.74 0 0 0 1.764 24h20.328a1.74 1.74 0 0 0 1.764-1.716V1.716A1.742 1.742 0 0 0 22.092 0ZM7.236 20.088h-3.6v-10.8h3.6v10.8Zm-1.8-12.312a1.872 1.872 0 0 1 0-3.744 1.884 1.884 0 1 1 0 3.744ZM20.22 20.088h-3.6v-5.796c0-1.452-.516-2.4-1.824-2.4a1.98 1.98 0 0 0-1.848 1.308 2.4 2.4 0 0 0-.12.876v6h-3.6v-10.8h3.6V10.8A3.601 3.601 0 0 1 16.08 9c2.4 0 4.14 1.548 4.14 4.872v6.216Z" fill="#fff"/></svg>
                 </a>
             </div>
         </div>
@@ -1851,23 +1888,19 @@
                 // Coordinates relative to dome
                 vec2 p = uv - center;
 
-                // Invert y for bottom dome
-                if (uIsBottom > 0.5) {
-                    p.y = -p.y;
-                }
+                // Normalize vertical distance away from the dome into positive domain [0.0, 1.0]
+                float distY = uIsBottom > 0.5 ? p.y : -p.y;
 
-                // Vertical elongation: extends glow comfortably down until the 'Get in touch' button
-                vec2 pScaled = p;
-                pScaled.x *= 1.15; // Natural horizontal spread
-                pScaled.y *= 0.72; // Stretched vertically to reach 'Get in touch'
+                // Vertical elongation: extends glow comfortably into the section
+                vec2 pScaled = vec2(p.x * 1.15, distY * 0.72);
 
                 // Fluid water speed: fast enough to clearly see & feel living water in real time
                 float t = uTime * 1.15;
 
-                // Depth factor: 0.0 at dome rim -> 1.0 at 'Get in touch' button
-                float depth = clamp(p.y * 1.35, 0.0, 1.0);
+                // Depth factor: 0.0 at dome rim -> 1.0 at buttons
+                float depth = clamp(distY * 1.35, 0.0, 1.0);
 
-                // Water wave height decreases/settles down as it reaches the button (like water settling)
+                // Water wave height decreases/settles down as it reaches the button
                 float waveAmplitude = mix(0.22, 0.06, depth);
 
                 // 1. Prominent, energetic Left-to-Right and Right-to-Left ocean wave currents
@@ -1887,25 +1920,23 @@
                 // 3. Ambient body modulated predominantly by living wave movement
                 float baseHalo = exp(-baseDist * baseDist * 1.85);
                 float waveHalo = exp(-fluidDist * fluidDist * 1.95);
-                // 70% active liquid motion + 30% ambient floor so movement is clearly felt!
                 float glow = baseHalo * 0.30 + waveHalo * 0.70;
 
                 // 4. Visible Liquid Water Caustics & Rolling Surface Shimmer
-                // This creates moving liquid bands of light that the eye immediately tracks!
                 float caustics1 = sin(fluidDist * 9.5 - t * 2.1 + wave1 * 3.5) * 0.12;
                 float caustics2 = cos(waterUV.x * 5.5 - waterUV.y * 4.5 - t * 1.5) * 0.08;
                 float waterShimmer = (caustics1 + caustics2) * (1.0 - depth * 0.5) * baseHalo;
                 glow = clamp(glow + waterShimmer, 0.0, 1.0);
 
-                // 5. Clean, soft fade out before Bento section (0% red in Bento)
-                glow *= smoothstep(1.0, 0.78, p.y);
+                // 5. Clean, soft fade out before Bento section
+                glow *= smoothstep(1.0, 0.70, distY);
 
                 // Exact Dharmesh crimson rgb(221, 14, 69) (#dd0e45)
                 vec3 crimson = vec3(0.867, 0.055, 0.271);
                 
-                // Maintained soft & dim: NOT dark red, but ethereal, delicate wine ambient light
-                vec3 color = crimson * glow * 0.72;
-                float alpha = glow * 0.66;
+                // Deep, velvety wine atmospheric radiance
+                vec3 color = crimson * glow * 0.78;
+                float alpha = glow * 0.70;
 
                 gl_FragColor = vec4(color, alpha);
             }

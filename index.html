@@ -101,7 +101,7 @@
 
         .sun-dome-disc {
             position: absolute;
-            top: -400px;
+            top: -390px;
             left: 50%;
             transform: translateX(-50%);
             width: 480px;
@@ -150,7 +150,7 @@
 
         .sun-dome-bottom {
             position: absolute;
-            bottom: -400px;
+            bottom: -390px;
             left: 50%;
             transform: translateX(-50%);
             width: 480px;
@@ -454,6 +454,24 @@
         #nav-logo.active {
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.85));
         }
+
+        #floating-navbar {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, -48px);
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        #floating-navbar.nav-visible {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto;
+        }
     </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -463,7 +481,7 @@
 
         <!-- FLOATING PILL NAVBAR -->
         <!-- FLOATING PILL NAVBAR: EXACT DHARMESH REPLICATION (480px, 40px Blur, Hairline Border, White Squircle Logo) -->
-    <header id="floating-navbar" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ease-out will-change-transform opacity-0 -translate-y-12 pointer-events-none">
+    <header id="floating-navbar">
         <nav class="flex items-center justify-between w-[480px] max-w-[calc(100vw-32px)] h-14 px-6 rounded-full bg-black/50 backdrop-blur-[40px] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.85)]">
             <!-- White Squircle Logo Badge (Exact Dharmesh "D" Style -> "P" Monogram) -->
             <a href="#hero" class="w-7 h-7 rounded-lg bg-white text-black font-mondwest font-bold text-base flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0" aria-label="Pavithran - Home" id="nav-logo">
@@ -1464,13 +1482,9 @@
         
         // Show / hide floating navbar
         if (scrollY > 260) {
-            navbar.style.transform = 'translate(-50%, 0)';
-            navbar.style.opacity = '1';
-            navbar.style.pointerEvents = 'auto';
+            navbar.classList.add('nav-visible');
         } else {
-            navbar.style.transform = 'translate(-50%, -48px)';
-            navbar.style.opacity = '0';
-            navbar.style.pointerEvents = 'none';
+            navbar.classList.remove('nav-visible');
         }
 
         // Active Section Detection
